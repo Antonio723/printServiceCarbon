@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="modelo_carbon" pageWidth="283" pageHeight="127" orientation="Landscape" columnWidth="275" leftMargin="4" rightMargin="4" topMargin="4" bottomMargin="4" uuid="f92fc586-3fc9-4d12-ba14-839acb966896">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SopaBase"/>
+	<property name="com.jaspersoft.studio.unit." value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="mm"/>
+	<queryString language="SQL">
+		<![CDATA[select 1 as result]]>
+	</queryString>
+	<field name="result" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="result"/>
+		<property name="com.jaspersoft.studio.field.label" value="result"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="113" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="59" width="274" height="16" uuid="eb4e88ca-9f00-4640-8e44-8836f38dbc2f"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="44" width="274" height="15" uuid="2fafc2d0-db71-4368-90b7-7eea9bb6487e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="29" width="274" height="15" uuid="3a43cc1b-6b74-4fcd-a2a6-15525d530fc1">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="13" width="274" height="15" uuid="ff74fb93-b157-4aa7-846f-3e0a234de3ee">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="0" width="274" height="13" uuid="78afa766-3c0f-4e98-85e4-5792d927037f"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="0" width="274" height="14" uuid="c12085ab-140b-4851-a5b2-535bc8ddbe1d">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["MATERIAL: ARABLACK TEC- 120 AS"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="14" width="70" height="14" uuid="502779b4-2a77-447b-b9e5-c580cc0f3cfa"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["PROCESSO: "]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="68" y="15" width="10" height="11" uuid="dd1c1c89-2e2c-452b-930c-51769bbabe8b"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="130" y="15" width="10" height="11" uuid="efaece12-d677-40c8-8e80-62691da74331"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="100" y="15" width="10" height="11" uuid="518af3ea-6c31-4233-be7d-eb62a1378e63"/>
+			</rectangle>
+			<textField>
+				<reportElement x="170" y="15" width="40" height="14" uuid="00373020-429e-43ff-b034-962dae144171"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["DATA: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="29" width="50" height="14" uuid="4f1d02c1-e69d-4985-9e82-d52342b45640"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["FILME: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="44" width="50" height="14" uuid="da5ccb48-d606-4b43-8cee-d6f768b75a87"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["TECIDO: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="60" width="80" height="14" uuid="5d52e6cb-0a90-41df-9bf7-fa7b57a86422"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["RESPOSÁVEL: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="144" y="29" width="50" height="14" uuid="8137a07f-82b6-485c-9c8d-0c2c16a812de"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["LOTE: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="44" width="50" height="14" uuid="42cdc26f-f242-4933-a306-2bb2d4dba1bb"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["LOTE: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="202" y="60" width="72" height="14" uuid="5cac5e0e-bb1b-49b6-ae22-e168a943da7a"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["PLACA: "]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="75" width="274" height="38" uuid="bcc664a5-124a-4abc-a58e-5cc5d2705a0c"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="76" width="90" height="14" uuid="8ae83db8-4dcd-4dcf-b25e-e2cb289e5aef"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA["OBSERVAÇÕES: "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="81" y="13" width="10" height="15" uuid="5a6fb5c5-5017-4f97-80a7-2fc4d9327aad"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[E]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="143" y="13" width="10" height="15" uuid="ec6026df-fe50-4040-9351-86f48a67a0b1"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[C]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="13" width="10" height="15" uuid="2baa0a7f-3e13-44b0-861e-4f806d01a5fc"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[A]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

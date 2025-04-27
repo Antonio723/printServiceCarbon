@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    image: teste_print_service
+    env_file:
+      - .env
+    environment:
+      DB_PROD_URL: ${DB_PROD_URL}
+      DB_PROD_USERNAME: ${DB_PROD_USERNAME}
+      DB_PROD_PASSWORD: ${DB_PROD_PASSWORD}
+    ports:
+      - "8080:8080"
