@@ -126,7 +126,7 @@ order by p.workorder_id, p.plate_sequence]]>
 				<textFieldExpression><![CDATA["TECIDO: "]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="3" y="29" width="80" height="14" uuid="5d52e6cb-0a90-41df-9bf7-fa7b57a86422"/>
+				<reportElement x="3" y="29" width="113" height="14" uuid="5d52e6cb-0a90-41df-9bf7-fa7b57a86422"/>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA["LOTE: "+$F{lote}]]></textFieldExpression>
 			</textField>
