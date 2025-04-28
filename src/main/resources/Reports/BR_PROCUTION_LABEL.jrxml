@@ -142,8 +142,8 @@ order by p.workorder_id, p.plate_sequence]]>
 			</textField>
 			<textField>
 				<reportElement x="195" y="29" width="79" height="14" uuid="5cac5e0e-bb1b-49b6-ae22-e168a943da7a"/>
-				<textElement textAlignment="Left"/>
-				<textFieldExpression><![CDATA["PLACA: "+$F{plates_quantity}]]></textFieldExpression>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["PLACA: "+$F{plate_sequence}+"/"+$F{plates_quantity}]]></textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement x="0" y="73" width="274" height="38" uuid="bcc664a5-124a-4abc-a58e-5cc5d2705a0c"/>
