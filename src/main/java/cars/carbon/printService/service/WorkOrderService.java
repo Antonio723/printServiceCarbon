@@ -25,6 +25,7 @@ public class WorkOrderService {
         workOrder.setEnfestoType(dto.getEnfestoType());
         workOrder.setFilmeTye(dto.getFilmeTye());
         workOrder.setPlatesQuantity(dto.getPlatesQuantity());
+        workOrder.setPlatesLayres(dto.getPlatesLayres());
 
         // Primeiro salva o WorkOrder para garantir que o ID é gerado
         WorkOrder savedWorkOrder = workOrderRepository.save(workOrder);
