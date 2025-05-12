@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WorkOrderService {
@@ -41,6 +42,25 @@ public class WorkOrderService {
         savedWorkOrder.setPlates(platesList);
 
         return workOrderRepository.save(savedWorkOrder); // salva novamente, agora com as plates
+    }
+
+    public WorkOrder updateWorkOrder(Long id, WorkOrderRequestDTO dto) {
+        Optional<WorkOrder> optionalWorkOrder = workOrderRepository.findById(id);
+
+        if (optionalWorkOrder.isEmpty()) {
+            throw new RuntimeException("Ordem de trabalho não encontrada para o ID: " + id);
+        }
+
+        WorkOrder workOrder = optionalWorkOrder.get();
+
+        workOrder.setLote(dto.getLote());
+        workOrder.setEnfestoType(dto.getEnfestoType());
+        workOrder.setFilmeTye(dto.getFilmeTye());
+        workOrder.setPlatesQuantity(dto.getPlatesQuantity());
+        workOrder.setPlatesLayres(dto.getPlatesLayres());
+        workOrder.setChangeDate(LocalDateTime.now());
+
+        return workOrderRepository.save(workOrder);
     }
 
     public List<WorkOrder> listAll(){

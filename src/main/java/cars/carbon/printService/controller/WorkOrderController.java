@@ -32,4 +32,8 @@ public class WorkOrderController {
         return workOrderService.deleteAllById(id);
     }
 
+    @PutMapping("/{id}")
+    public WorkOrder update(@PathVariable Long id, @RequestBody WorkOrderRequestDTO dto) {
+        return workOrderService.updateWorkOrder(id, dto);
+    }
 }
