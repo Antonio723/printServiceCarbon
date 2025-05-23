@@ -12,14 +12,34 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="mm"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="mm"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="mm"/>
+	<style name="center all" hTextAlign="Center" hImageAlign="Center" vTextAlign="Middle" vImageAlign="Middle"/>
 	<parameter name="otid" class="java.lang.Long"/>
 	<queryString language="SQL">
-		<![CDATA[select * from workorder_table wo
+		<![CDATA[select p.id as plate_id,
+       p.plate_sequence,
+       p.workorder_id,
+       wo.*
+ from workorder_table wo
 inner join plates p
 on p.workorder_id = wo.id
 where wo.id =  $P{otid} 
 order by p.workorder_id, p.plate_sequence]]>
 	</queryString>
+	<field name="plate_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="plate_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="plate_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="plates"/>
+	</field>
+	<field name="plate_sequence" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="plate_sequence"/>
+		<property name="com.jaspersoft.studio.field.label" value="plate_sequence"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="plates"/>
+	</field>
+	<field name="workorder_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="workorder_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="workorder_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="plates"/>
+	</field>
 	<field name="id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id"/>
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
@@ -55,26 +75,19 @@ order by p.workorder_id, p.plate_sequence]]>
 		<property name="com.jaspersoft.studio.field.label" value="plates_quantity"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
 	</field>
-	<field name="COLUMN_8" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="id"/>
-		<property name="com.jaspersoft.studio.field.label" value="id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="plates"/>
-	</field>
-	<field name="plate_sequence" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="plate_sequence"/>
-		<property name="com.jaspersoft.studio.field.label" value="plate_sequence"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="plates"/>
-	</field>
-	<field name="workorder_id" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="workorder_id"/>
-		<property name="com.jaspersoft.studio.field.label" value="workorder_id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="plates"/>
+	<field name="plates_layres" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="plates_layres"/>
+		<property name="com.jaspersoft.studio.field.label" value="plates_layres"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="113" splitType="Stretch">
+		<band height="116" splitType="Stretch">
+			<rectangle>
+				<reportElement x="174" y="73" width="99" height="38" uuid="99924309-bd3b-4c26-a132-7acf13c2464f"/>
+			</rectangle>
 			<rectangle>
 				<reportElement x="0" y="27" width="274" height="16" uuid="eb4e88ca-9f00-4640-8e44-8836f38dbc2f"/>
 			</rectangle>
@@ -162,7 +175,7 @@ order by p.workorder_id, p.plate_sequence]]>
 				<textFieldExpression><![CDATA["PLACA: "+$F{plate_sequence}+"/"+$F{plates_quantity}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="0" y="73" width="274" height="38" uuid="bcc664a5-124a-4abc-a58e-5cc5d2705a0c"/>
+				<reportElement x="0" y="73" width="174" height="38" uuid="bcc664a5-124a-4abc-a58e-5cc5d2705a0c"/>
 			</rectangle>
 			<textField>
 				<reportElement x="2" y="75" width="90" height="14" uuid="8ae83db8-4dcd-4dcf-b25e-e2cb289e5aef"/>
@@ -211,6 +224,12 @@ order by p.workorder_id, p.plate_sequence]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{lote}]]></textFieldExpression>
 			</textField>
+			<componentElement>
+				<reportElement style="center all" x="174" y="75" width="100" height="34" uuid="f135d7d6-0b1d-4530-983e-cb039f282ecc"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$F{plate_id}+"-"+$F{workorder_id}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
 		</band>
 	</detail>
 </jasperReport>
