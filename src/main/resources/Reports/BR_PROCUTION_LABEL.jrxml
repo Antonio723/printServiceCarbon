@@ -215,7 +215,7 @@ order by p.workorder_id, p.plate_sequence]]>
 			<textField>
 				<reportElement x="123" y="29" width="79" height="14" uuid="b0cb59c6-c307-4f53-bad6-663c965e8c25"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["NF: "]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{plates_layres}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="31" y="29" width="92" height="14" uuid="442505a7-0d43-49ec-bed1-d676fb2efb81"/>
