@@ -86,7 +86,9 @@ order by p.workorder_id, p.plate_sequence]]>
 	<detail>
 		<band height="116" splitType="Stretch">
 			<rectangle>
-				<reportElement x="174" y="73" width="99" height="38" uuid="99924309-bd3b-4c26-a132-7acf13c2464f"/>
+				<reportElement x="170" y="73" width="104" height="38" uuid="99924309-bd3b-4c26-a132-7acf13c2464f">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
 			</rectangle>
 			<rectangle>
 				<reportElement x="0" y="27" width="274" height="16" uuid="eb4e88ca-9f00-4640-8e44-8836f38dbc2f"/>
@@ -175,7 +177,7 @@ order by p.workorder_id, p.plate_sequence]]>
 				<textFieldExpression><![CDATA["PLACA: "+$F{plate_sequence}+"/"+$F{plates_quantity}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="0" y="73" width="174" height="38" uuid="bcc664a5-124a-4abc-a58e-5cc5d2705a0c"/>
+				<reportElement x="0" y="73" width="170" height="38" uuid="bcc664a5-124a-4abc-a58e-5cc5d2705a0c"/>
 			</rectangle>
 			<textField>
 				<reportElement x="2" y="75" width="90" height="14" uuid="8ae83db8-4dcd-4dcf-b25e-e2cb289e5aef"/>
@@ -225,8 +227,8 @@ order by p.workorder_id, p.plate_sequence]]>
 				<textFieldExpression><![CDATA[$F{lote}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement style="center all" x="174" y="75" width="100" height="34" uuid="f135d7d6-0b1d-4530-983e-cb039f282ecc"/>
-				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+				<reportElement style="center all" x="170" y="73" width="102" height="34" uuid="f135d7d6-0b1d-4530-983e-cb039f282ecc"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.0" quietZone="3.0">
 					<jr:codeExpression><![CDATA[$F{plate_id}+"-"+$F{workorder_id}]]></jr:codeExpression>
 				</jr:Code128>
 			</componentElement>
