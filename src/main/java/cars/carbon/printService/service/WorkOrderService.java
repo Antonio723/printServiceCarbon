@@ -4,6 +4,7 @@ import cars.carbon.printService.dto.WorkOrderRequestDTO;
 import cars.carbon.printService.model.WorkOrder;
 import cars.carbon.printService.model.WorkOrders.Plates;
 import cars.carbon.printService.repository.WorkOrderRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,8 @@ public class WorkOrderService {
         workOrder.setCreationDate(LocalDateTime.now());
         workOrder.setChangeDate(LocalDateTime.now());
         workOrder.setLote(dto.getLote());
-        workOrder.setEnfestoType(dto.getEnfestoType());
-        workOrder.setFilmeTye(dto.getFilmeTye());
+        workOrder.setClothType(dto.getClothType());
+        workOrder.setPlasticType(dto.getPlasticType());
         workOrder.setPlatesQuantity(dto.getPlatesQuantity());
         workOrder.setPlatesLayres(dto.getPlatesLayres());
 
@@ -34,7 +35,7 @@ public class WorkOrderService {
         List<Plates> platesList = new ArrayList<>();
         for (long i = 1; i <= dto.getPlatesQuantity(); i++) {
             Plates plate = new Plates();
-            plate.setPlate_sequence(i);
+            plate.setPlateSequence(i);
             plate.setWorkorderid(savedWorkOrder); // agora o ID existe
             platesList.add(plate);
         }
@@ -54,8 +55,8 @@ public class WorkOrderService {
         WorkOrder workOrder = optionalWorkOrder.get();
 
         workOrder.setLote(dto.getLote());
-        workOrder.setEnfestoType(dto.getEnfestoType());
-        workOrder.setFilmeTye(dto.getFilmeTye());
+        workOrder.setClothType(dto.getClothType());
+        workOrder.setPlasticType(dto.getPlasticType());
         workOrder.setPlatesQuantity(dto.getPlatesQuantity());
         workOrder.setPlatesLayres(dto.getPlatesLayres());
         workOrder.setChangeDate(LocalDateTime.now());
@@ -67,13 +68,14 @@ public class WorkOrderService {
         return workOrderRepository.findAll();
     }
 
-    public String deleteAllById(Long id){
-        if (workOrderRepository.existsById(id)) {
-            workOrderRepository.deleteById(id);
-            return "Ordem de trabalho deletada com sucesso.";
-        } else {
-            return "Ordem de trabalho com ID " + id + " não encontrada.";
-        }
+    @Transactional
+    public String deleteById(Long id) {
+        WorkOrder workOrder = workOrderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ordem de trabalho não encontrada para o ID: " + id));
+
+        workOrderRepository.delete(workOrder);
+
+        return "Ordem de trabalho deletada com sucesso.";
     }
 
 }

@@ -1,19 +1,11 @@
 package cars.carbon.printService.dto;
 
 public class WorkOrderRequestDTO {
-    private String enfestoType;
-    private String filmeTye;
+    private String clothType;
+    private String plasticType;
     private String lote;
     private Long platesQuantity;
     private Long platesLayres;
-
-    public Long getPlatesQuantity() {
-        return platesQuantity;
-    }
-
-    public void setPlatesQuantity(Long platesQuantity) {
-        this.platesQuantity = platesQuantity;
-    }
 
     public String getLote() {
         return lote;
@@ -23,20 +15,28 @@ public class WorkOrderRequestDTO {
         this.lote = lote;
     }
 
-    public String getFilmeTye() {
-        return filmeTye;
+    public String getClothType() {
+        return clothType;
     }
 
-    public void setFilmeTye(String filmeTye) {
-        this.filmeTye = filmeTye;
+    public void setClothType(String clothType) {
+        this.clothType = clothType;
     }
 
-    public String getEnfestoType() {
-        return enfestoType;
+    public String getPlasticType() {
+        return plasticType;
     }
 
-    public void setEnfestoType(String enfestoType) {
-        this.enfestoType = enfestoType;
+    public void setPlasticType(String plasticType) {
+        this.plasticType = plasticType;
+    }
+
+    public Long getPlatesQuantity() {
+        return platesQuantity;
+    }
+
+    public void setPlatesQuantity(Long platesQuantity) {
+        this.platesQuantity = platesQuantity;
     }
 
     public Long getPlatesLayres() {

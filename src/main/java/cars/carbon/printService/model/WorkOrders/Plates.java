@@ -1,22 +1,33 @@
 package cars.carbon.printService.model.WorkOrders;
 
 import cars.carbon.printService.model.WorkOrder;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name="Plates")
 public class Plates {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "plate_seq",
+            sequenceName = "plate_sequence",
+            allocationSize = 1,
+            initialValue = 999
+    )
     private long id;
+
     @ManyToOne
-    @JoinColumn(name = "workorder_id")
+    @JoinColumn(name = "workorderid")
+    @JsonBackReference
     private WorkOrder workorderid;
-    private long plate_sequence;
+
+    @Column(name = "plate_sequence")
+    private long plateSequence;
 
     @Deprecated
-    public Plates() {
-    }
+    public Plates() {}
 
     public long getId() {
         return id;
@@ -30,12 +41,11 @@ public class Plates {
         this.workorderid = workorderid;
     }
 
-    public long getPlate_sequence() {
-        return plate_sequence;
+    public long getPlateSequence() {
+        return plateSequence;
     }
 
-    public void setPlate_sequence(long plate_sequence) {
-        this.plate_sequence = plate_sequence;
+    public void setPlateSequence(long plateSequence) {
+        this.plateSequence = plateSequence;
     }
 }
-
