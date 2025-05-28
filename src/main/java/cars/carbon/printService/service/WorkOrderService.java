@@ -68,14 +68,13 @@ public class WorkOrderService {
         return workOrderRepository.findAll();
     }
 
-    @Transactional
-    public String deleteById(Long id) {
-        WorkOrder workOrder = workOrderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ordem de trabalho não encontrada para o ID: " + id));
-
-        workOrderRepository.delete(workOrder);
-
-        return "Ordem de trabalho deletada com sucesso.";
+    public String deleteAllById(Long id){
+        if (workOrderRepository.existsById(id)) {
+            workOrderRepository.deleteById(id);
+            return "Ordem de trabalho deletada com sucesso.";
+        } else {
+            return "Ordem de trabalho com ID " + id + " não encontrada.";
+        }
     }
 
 }
