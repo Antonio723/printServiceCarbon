@@ -29,7 +29,7 @@ public class WorkOrderController {
 
     @DeleteMapping
     public String delete(@RequestParam Long id){
-        return workOrderService.deleteById(id);
+        return workOrderService.deleteAllById(id);
     }
 
     @PutMapping("/{id}")

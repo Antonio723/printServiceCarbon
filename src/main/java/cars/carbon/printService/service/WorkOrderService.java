@@ -19,6 +19,7 @@ public class WorkOrderService {
     @Autowired
     private WorkOrderRepository workOrderRepository;
 
+    @Transactional
     public WorkOrder createWorkOrder(WorkOrderRequestDTO dto) {
         WorkOrder workOrder = new WorkOrder();
         workOrder.setCreationDate(LocalDateTime.now());
@@ -45,6 +46,7 @@ public class WorkOrderService {
         return workOrderRepository.save(savedWorkOrder); // salva novamente, agora com as plates
     }
 
+    @Transactional
     public WorkOrder updateWorkOrder(Long id, WorkOrderRequestDTO dto) {
         Optional<WorkOrder> optionalWorkOrder = workOrderRepository.findById(id);
 
@@ -64,10 +66,12 @@ public class WorkOrderService {
         return workOrderRepository.save(workOrder);
     }
 
+    @Transactional
     public List<WorkOrder> listAll(){
         return workOrderRepository.findAll();
     }
 
+    @Transactional
     public String deleteAllById(Long id){
         if (workOrderRepository.existsById(id)) {
             workOrderRepository.deleteById(id);
