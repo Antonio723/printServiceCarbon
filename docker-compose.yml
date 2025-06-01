@@ -4,7 +4,8 @@ services:
   app:
     build:
       context: .
-    image: teste_print_service
+    image: orquestra_image
+    container_name: orquestra_service
     env_file:
       - .env
     environment:

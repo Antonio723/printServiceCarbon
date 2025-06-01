@@ -11,7 +11,7 @@ spring:
       idle-timeout: 60000          # Tempo (em ms) para uma conexão ociosa ser fechada (60s)
       max-lifetime: 1800000        # Tempo máximo de vida de uma conexão (30 minutos)
       connection-timeout: 30000    # Tempo máximo de espera para obter uma conexão (30s)
-      leak-detection-threshold: 20000  # Loga conexões que demoram mais de 20s (opcional, para debugar)
+      leak-detection-threshold: 20000  # Loga conexões que demoram mais de 20s
       auto-commit: true
       validation-timeout: 5000
 
