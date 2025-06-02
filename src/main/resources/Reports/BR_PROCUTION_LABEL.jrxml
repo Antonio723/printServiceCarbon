@@ -2,7 +2,7 @@
 <!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="modelo_carbon" pageWidth="283" pageHeight="184" orientation="Landscape" columnWidth="275" leftMargin="4" rightMargin="4" topMargin="4" bottomMargin="4" uuid="f92fc586-3fc9-4d12-ba14-839acb966896">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="database"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dev_mode_opera"/>
 	<property name="com.jaspersoft.studio.unit." value="mm"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
@@ -91,13 +91,35 @@ order by p.workorderid, p.plate_sequence]]>
 		<property name="com.jaspersoft.studio.field.label" value="plastic_batch"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
 	</field>
+	<field name="caf_batch" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="caf_batch"/>
+		<property name="com.jaspersoft.studio.field.label" value="caf_batch"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+	</field>
+	<field name="resined_batch" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="resined_batch"/>
+		<property name="com.jaspersoft.studio.field.label" value="resined_batch"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
 		<band height="176" splitType="Stretch">
 			<rectangle>
-				<reportElement x="170" y="122" width="104" height="38" uuid="99924309-bd3b-4c26-a132-7acf13c2464f">
+				<reportElement x="0" y="120" width="274" height="15" uuid="6cff70d2-0660-4969-87e7-ce2e05b2fb88">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="122" width="136" height="12" uuid="328e2807-fbb6-41e5-aa11-863eef4e3f6d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["LOTE CAF: "+$F{caf_batch}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="170" y="135" width="104" height="38" uuid="99924309-bd3b-4c26-a132-7acf13c2464f">
 					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 				</reportElement>
 			</rectangle>
@@ -137,14 +159,14 @@ order by p.workorderid, p.plate_sequence]]>
 				<reportElement x="89" y="64" width="10" height="11" uuid="518af3ea-6c31-4233-be7d-eb62a1378e63"/>
 			</rectangle>
 			<textField>
-				<reportElement x="1" y="108" width="143" height="14" uuid="4f1d02c1-e69d-4985-9e82-d52342b45640"/>
+				<reportElement x="1" y="108" width="125" height="14" uuid="4f1d02c1-e69d-4985-9e82-d52342b45640"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["PLÁSTICO: "+$F{plastic_type}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1" y="93" width="144" height="14" uuid="da5ccb48-d606-4b43-8cee-d6f768b75a87"/>
+				<reportElement x="1" y="93" width="124" height="14" uuid="da5ccb48-d606-4b43-8cee-d6f768b75a87"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -158,14 +180,14 @@ order by p.workorderid, p.plate_sequence]]>
 				<textFieldExpression><![CDATA["LOTE:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="145" y="108" width="114" height="14" uuid="8137a07f-82b6-485c-9c8d-0c2c16a812de"/>
+				<reportElement x="123" y="108" width="136" height="14" uuid="8137a07f-82b6-485c-9c8d-0c2c16a812de"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["LOTE: "+$F{plastic_batch}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="145" y="93" width="114" height="14" uuid="42cdc26f-f242-4933-a306-2bb2d4dba1bb"/>
+				<reportElement x="125" y="93" width="146" height="14" uuid="42cdc26f-f242-4933-a306-2bb2d4dba1bb"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -179,10 +201,10 @@ order by p.workorderid, p.plate_sequence]]>
 				<textFieldExpression><![CDATA["PLACA: "+$F{plate_sequence}+"/"+$F{plates_quantity}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="0" y="122" width="170" height="38" uuid="bcc664a5-124a-4abc-a58e-5cc5d2705a0c"/>
+				<reportElement x="0" y="135" width="170" height="38" uuid="bcc664a5-124a-4abc-a58e-5cc5d2705a0c"/>
 			</rectangle>
 			<textField>
-				<reportElement x="2" y="124" width="90" height="14" uuid="8ae83db8-4dcd-4dcf-b25e-e2cb289e5aef"/>
+				<reportElement x="2" y="137" width="90" height="14" uuid="8ae83db8-4dcd-4dcf-b25e-e2cb289e5aef"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -229,7 +251,7 @@ order by p.workorderid, p.plate_sequence]]>
 				<textFieldExpression><![CDATA[$F{lote}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement style="center all" x="170" y="122" width="102" height="34" uuid="f135d7d6-0b1d-4530-983e-cb039f282ecc"/>
+				<reportElement style="center all" x="170" y="135" width="102" height="34" uuid="f135d7d6-0b1d-4530-983e-cb039f282ecc"/>
 				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.0" quietZone="3.0">
 					<jr:codeExpression><![CDATA[$F{plate_id}+"-"+$F{workorderid}]]></jr:codeExpression>
 				</jr:Code128>
@@ -238,6 +260,13 @@ order by p.workorderid, p.plate_sequence]]>
 				<reportElement x="1" y="4" width="271" height="55" uuid="dc225070-051c-480e-9ce4-b2f3c8f9bd85"/>
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="136" y="122" width="136" height="12" uuid="0430bae7-2f3c-4ab5-836e-216713b9026a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["LOTE RESINADO: "+$F{resined_batch}}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>

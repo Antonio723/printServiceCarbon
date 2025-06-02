@@ -36,6 +36,8 @@ public class WorkOrder {
     private String plasticType;
     private String plasticBatch;
     private Long platesLayres;
+    private String cafBatch;
+    private String resinedBatch;
 
     @Deprecated
     public WorkOrder() {}
@@ -140,5 +142,21 @@ public class WorkOrder {
 
     public void setPlatesLayres(Long platesLayres) {
         this.platesLayres = platesLayres;
+    }
+
+    public String getResinedBatch() {
+        return resinedBatch;
+    }
+
+    public void setResinedBatch(String resinedBatch) {
+        this.resinedBatch = resinedBatch;
+    }
+
+    public String getCafBatch() {
+        return cafBatch;
+    }
+
+    public void setCafBatch(String cafBatch) {
+        this.cafBatch = cafBatch;
     }
 }

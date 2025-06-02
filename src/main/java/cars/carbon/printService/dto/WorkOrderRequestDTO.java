@@ -8,6 +8,8 @@ public class WorkOrderRequestDTO {
     private String lote;
     private Long platesQuantity;
     private Long platesLayres;
+    private String cafBatch;
+    private String resinedBatch;
 
     public String getLote() {
         return lote;
@@ -63,5 +65,21 @@ public class WorkOrderRequestDTO {
 
     public void setPlatesLayres(Long platesLayres) {
         this.platesLayres = platesLayres;
+    }
+
+    public String getCafBatch() {
+        return cafBatch;
+    }
+
+    public void setCafBatch(String cafBatch) {
+        this.cafBatch = cafBatch;
+    }
+
+    public String getResinedBatch() {
+        return resinedBatch;
+    }
+
+    public void setResinedBatch(String resinedBatch) {
+        this.resinedBatch = resinedBatch;
     }
 }

@@ -31,6 +31,8 @@ public class WorkOrderService {
         workOrder.setClothBatch(dto.getClothBatch());
         workOrder.setPlatesQuantity(dto.getPlatesQuantity());
         workOrder.setPlatesLayres(dto.getPlatesLayres());
+        workOrder.setCafBatch(dto.getCafBatch());
+        workOrder.setResinedBatch(dto.getResinedBatch());
 
         // Primeiro salva o WorkOrder para garantir que o ID é gerado
         WorkOrder savedWorkOrder = workOrderRepository.save(workOrder);
@@ -66,6 +68,8 @@ public class WorkOrderService {
         workOrder.setClothBatch(dto.getClothBatch());
         workOrder.setPlatesQuantity(dto.getPlatesQuantity());
         workOrder.setPlatesLayres(dto.getPlatesLayres());
+        workOrder.setCafBatch(dto.getCafBatch());
+        workOrder.setResinedBatch(dto.getResinedBatch());
 
         return workOrderRepository.save(workOrder);
     }
