@@ -265,7 +265,7 @@ order by p.workorderid, p.plate_sequence]]>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA["LOTE RESINADO: "+$F{resined_batch}}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["LOTE RESINADO: "+$F{resined_batch}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
