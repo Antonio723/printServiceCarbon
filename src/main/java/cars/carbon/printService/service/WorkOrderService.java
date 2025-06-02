@@ -27,6 +27,8 @@ public class WorkOrderService {
         workOrder.setLote(dto.getLote());
         workOrder.setClothType(dto.getClothType());
         workOrder.setPlasticType(dto.getPlasticType());
+        workOrder.setPlasticBatch(dto.getPlasticBatch());
+        workOrder.setClothBatch(dto.getClothBatch());
         workOrder.setPlatesQuantity(dto.getPlatesQuantity());
         workOrder.setPlatesLayres(dto.getPlatesLayres());
 
@@ -56,12 +58,14 @@ public class WorkOrderService {
 
         WorkOrder workOrder = optionalWorkOrder.get();
 
+        workOrder.setChangeDate(LocalDateTime.now());
         workOrder.setLote(dto.getLote());
         workOrder.setClothType(dto.getClothType());
         workOrder.setPlasticType(dto.getPlasticType());
+        workOrder.setPlasticBatch(dto.getPlasticBatch());
+        workOrder.setClothBatch(dto.getClothBatch());
         workOrder.setPlatesQuantity(dto.getPlatesQuantity());
         workOrder.setPlatesLayres(dto.getPlatesLayres());
-        workOrder.setChangeDate(LocalDateTime.now());
 
         return workOrderRepository.save(workOrder);
     }

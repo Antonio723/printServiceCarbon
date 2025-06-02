@@ -32,7 +32,9 @@ public class WorkOrder {
     private List<Plates> plates = new ArrayList<>();
 
     private String clothType;
+    private String clothBatch;
     private String plasticType;
+    private String plasticBatch;
     private Long platesLayres;
 
     @Deprecated
@@ -79,6 +81,22 @@ public class WorkOrder {
 
     public void setLote(String lote) {
         this.lote = lote;
+    }
+
+    public String getClothBatch() {
+        return clothBatch;
+    }
+
+    public void setClothBatch(String clothBatch) {
+        this.clothBatch = clothBatch;
+    }
+
+    public String getPlasticBatch() {
+        return plasticBatch;
+    }
+
+    public void setPlasticBatch(String plasticBatch) {
+        this.plasticBatch = plasticBatch;
     }
 
     public Long getPlatesQuantity() {

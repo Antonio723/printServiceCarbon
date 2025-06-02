@@ -3,7 +3,9 @@ package cars.carbon.printService.service;
 import net.sf.jasperreports.engine.*;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
 import javax.sql.DataSource;
+import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -31,6 +33,19 @@ public class ReportService {
         // Preenche os parâmetros
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("otid", otId);
+
+        // Carrega a imagem do classpath como java.awt.Image
+        InputStream imageStream = this.getClass().getResourceAsStream("/images/LOGO_OPERA.jpg");
+        if (imageStream == null) {
+            throw new JRException("Imagem do logo não encontrada no classpath.");
+        }
+
+        try {
+            BufferedImage logoImage = ImageIO.read(imageStream);
+            parametros.put("logo", logoImage);
+        } catch (Exception e) {
+            throw new JRException("Erro ao carregar imagem do logo", e);
+        }
 
         // Abre conexão com o banco e gera o relatório
         try (Connection connection = dataSource.getConnection()) {
