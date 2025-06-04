@@ -116,7 +116,7 @@ order by p.workorderid, p.plate_sequence]]>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA["LOTE CAF: "+$F{caf_batch}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["LOTE RESINADO: "+$F{resined_batch}]]></textFieldExpression>
 			</textField>
 			<rectangle>
 				<reportElement x="170" y="135" width="104" height="38" uuid="99924309-bd3b-4c26-a132-7acf13c2464f">
@@ -260,13 +260,6 @@ order by p.workorderid, p.plate_sequence]]>
 				<reportElement x="1" y="4" width="271" height="55" uuid="dc225070-051c-480e-9ce4-b2f3c8f9bd85"/>
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
-			<textField>
-				<reportElement x="136" y="122" width="136" height="12" uuid="0430bae7-2f3c-4ab5-836e-216713b9026a"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["LOTE RESINADO: "+$F{resined_batch}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 </jasperReport>
