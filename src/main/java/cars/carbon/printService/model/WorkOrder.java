@@ -36,8 +36,8 @@ public class WorkOrder {
     private String plasticType;
     private String plasticBatch;
     private Long platesLayres;
-    private String cafBatch;
     private String resinedBatch;
+    private Date enfestoDate;
 
     @Deprecated
     public WorkOrder() {}
@@ -152,11 +152,11 @@ public class WorkOrder {
         this.resinedBatch = resinedBatch;
     }
 
-    public String getCafBatch() {
-        return cafBatch;
+    public Date getEnfestoDate() {
+        return enfestoDate;
     }
 
-    public void setCafBatch(String cafBatch) {
-        this.cafBatch = cafBatch;
+    public void setEnfestoDate(Date enfestoDate) {
+        this.enfestoDate = enfestoDate;
     }
 }

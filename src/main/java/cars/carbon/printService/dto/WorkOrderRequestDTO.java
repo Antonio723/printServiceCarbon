@@ -1,5 +1,7 @@
 package cars.carbon.printService.dto;
 
+import java.util.Date;
+
 public class WorkOrderRequestDTO {
     private String clothType;
     private String clothBatch;
@@ -8,8 +10,8 @@ public class WorkOrderRequestDTO {
     private String lote;
     private Long platesQuantity;
     private Long platesLayres;
-    private String cafBatch;
     private String resinedBatch;
+    private Date enfestoDate;
 
     public String getLote() {
         return lote;
@@ -67,19 +69,19 @@ public class WorkOrderRequestDTO {
         this.platesLayres = platesLayres;
     }
 
-    public String getCafBatch() {
-        return cafBatch;
-    }
-
-    public void setCafBatch(String cafBatch) {
-        this.cafBatch = cafBatch;
-    }
-
     public String getResinedBatch() {
         return resinedBatch;
     }
 
     public void setResinedBatch(String resinedBatch) {
         this.resinedBatch = resinedBatch;
+    }
+
+    public Date getEnfestoDate() {
+        return enfestoDate;
+    }
+
+    public void setEnfestoDate(Date enfestoDate) {
+        this.enfestoDate = enfestoDate;
     }
 }
