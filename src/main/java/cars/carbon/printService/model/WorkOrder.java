@@ -7,18 +7,19 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 @Entity
 @Table(name = "Workorder_table")
 public class WorkOrder {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(
             name = "workorder_seq",
             sequenceName = "workorder_sequence",
-            allocationSize = 1,
-            initialValue = 999
+            initialValue = 250,
+            allocationSize = 1
+
     )
     private Long id;
 
