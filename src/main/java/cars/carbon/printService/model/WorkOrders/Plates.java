@@ -1,6 +1,6 @@
-package cars.carbon.printService.model.WorkOrders;
+package cars.carbon.printService.model.workOrders;
 
-import cars.carbon.printService.model.WorkOrder;
+import cars.carbon.printService.model.workOrders.WorkOrder;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 

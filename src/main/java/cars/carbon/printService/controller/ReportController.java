@@ -61,4 +61,18 @@ public class ReportController {
         response.getOutputStream().write(pdf);
         response.getOutputStream().flush();
     }
+
+    @GetMapping("/etiquetaReceipt")
+    public void gerarEtiquetaReceipt(@RequestParam Long id, HttpServletResponse response) throws Exception {
+        byte[] pdf = etiquetaService.gerarEtiquetaReceipt(id);
+
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "inline; filename=etiqueta.pdf");
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("X-Frame-Options", "ALLOWALL");
+
+        response.getOutputStream().write(pdf);
+        response.getOutputStream().flush();
+    }
 }

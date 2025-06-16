@@ -1,8 +1,8 @@
 package cars.carbon.printService.service;
 
 import cars.carbon.printService.dto.WorkOrderRequestDTO;
-import cars.carbon.printService.model.WorkOrder;
-import cars.carbon.printService.model.WorkOrders.Plates;
+import cars.carbon.printService.model.workOrders.Plates;
+import cars.carbon.printService.model.workOrders.WorkOrder;
 import cars.carbon.printService.repository.WorkOrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

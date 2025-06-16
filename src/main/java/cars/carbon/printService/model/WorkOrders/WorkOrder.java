@@ -1,6 +1,5 @@
-package cars.carbon.printService.model;
+package cars.carbon.printService.model.workOrders;
 
-import cars.carbon.printService.model.WorkOrders.Plates;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -19,7 +18,6 @@ public class WorkOrder {
             sequenceName = "workorder_sequence",
             initialValue = 250,
             allocationSize = 1
-
     )
     private Long id;
 

@@ -91,11 +91,6 @@ order by p.workorderid, p.plate_sequence]]>
 		<property name="com.jaspersoft.studio.field.label" value="plastic_batch"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
 	</field>
-	<field name="caf_batch" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="caf_batch"/>
-		<property name="com.jaspersoft.studio.field.label" value="caf_batch"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
-	</field>
 	<field name="resined_batch" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="resined_batch"/>
 		<property name="com.jaspersoft.studio.field.label" value="resined_batch"/>

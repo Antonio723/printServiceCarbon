@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="modelo_carbon" pageWidth="283" pageHeight="184" orientation="Landscape" columnWidth="275" leftMargin="4" rightMargin="4" topMargin="4" bottomMargin="4" uuid="f92fc586-3fc9-4d12-ba14-839acb966896">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dev_mode_opera"/>
+	<property name="com.jaspersoft.studio.unit." value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="mm"/>
+	<style name="center all" hTextAlign="Center" hImageAlign="Center" vTextAlign="Middle" vImageAlign="Middle"/>
+	<parameter name="id" class="java.lang.Long"/>
+	<parameter name="logo" class="java.awt.image.BufferedImage"/>
+	<queryString language="SQL">
+		<![CDATA[WITH RECURSIVE etiquetas (
+  id,
+  intern_batch,
+  nf,
+  observation,
+  quantity,
+  receive_date,
+  responsible,
+  situation,
+  seq
+) AS (
+  -- Parte base com filtro por id
+  SELECT
+    id,
+    intern_batch,
+    nf,
+    observation,
+    quantity::integer,
+    receive_date,
+    responsible,
+    situation,
+    1 AS seq
+  FROM receipt
+  WHERE id =  $P{id}
+
+  UNION ALL
+
+  -- Parte recursiva
+  SELECT
+    e.id,
+    e.intern_batch,
+    e.nf,
+    e.observation,
+    e.quantity,
+    e.receive_date,
+    e.responsible,
+    e.situation,
+    e.seq + 1
+  FROM etiquetas e
+  WHERE e.seq < e.quantity
+)
+SELECT
+  id,
+  intern_batch,
+  nf,
+  observation,
+  quantity,
+  receive_date,
+  responsible,
+  situation,
+  seq,
+  seq || '/' || quantity AS etiqueta
+FROM etiquetas
+ORDER BY seq;]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+	</field>
+	<field name="intern_batch" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="intern_batch"/>
+		<property name="com.jaspersoft.studio.field.label" value="intern_batch"/>
+	</field>
+	<field name="nf" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nf"/>
+		<property name="com.jaspersoft.studio.field.label" value="nf"/>
+	</field>
+	<field name="observation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="observation"/>
+		<property name="com.jaspersoft.studio.field.label" value="observation"/>
+	</field>
+	<field name="quantity" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="quantity"/>
+		<property name="com.jaspersoft.studio.field.label" value="quantity"/>
+	</field>
+	<field name="receive_date" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="receive_date"/>
+		<property name="com.jaspersoft.studio.field.label" value="receive_date"/>
+	</field>
+	<field name="responsible" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="responsible"/>
+		<property name="com.jaspersoft.studio.field.label" value="responsible"/>
+	</field>
+	<field name="situation" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="situation"/>
+		<property name="com.jaspersoft.studio.field.label" value="situation"/>
+	</field>
+	<field name="seq" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="seq"/>
+		<property name="com.jaspersoft.studio.field.label" value="seq"/>
+	</field>
+	<field name="etiqueta" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="etiqueta"/>
+		<property name="com.jaspersoft.studio.field.label" value="etiqueta"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="176" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="120" width="274" height="15" uuid="6cff70d2-0660-4969-87e7-ce2e05b2fb88">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="1" y="122" width="136" height="12" uuid="328e2807-fbb6-41e5-aa11-863eef4e3f6d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RESPONSAVEL "+$F{responsible}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="76" width="274" height="16" uuid="eb4e88ca-9f00-4640-8e44-8836f38dbc2f"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="92" width="274" height="15" uuid="2fafc2d0-db71-4368-90b7-7eea9bb6487e"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="107" width="274" height="15" uuid="3a43cc1b-6b74-4fcd-a2a6-15525d530fc1">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="62" width="274" height="15" uuid="ff74fb93-b157-4aa7-846f-3e0a234de3ee">
+					<property name="com.jaspersoft.studio.unit.width" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="1" width="274" height="61" uuid="78afa766-3c0f-4e98-85e4-5792d927037f"/>
+			</rectangle>
+			<textField>
+				<reportElement x="3" y="63" width="168" height="14" uuid="502779b4-2a77-447b-b9e5-c580cc0f3cfa"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DATA DE RECEBIMENTO: "+$F{receive_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="108" width="273" height="14" uuid="4f1d02c1-e69d-4985-9e82-d52342b45640"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SITUAÇÃO: "+$F{situation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="93" width="272" height="14" uuid="da5ccb48-d606-4b43-8cee-d6f768b75a87"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["LOTE INTERNO: "+$F{intern_batch}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="78" width="270" height="14" uuid="5d52e6cb-0a90-41df-9bf7-fa7b57a86422"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NF:"+$F{nf}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="135" width="274" height="38" uuid="bcc664a5-124a-4abc-a58e-5cc5d2705a0c"/>
+			</rectangle>
+			<textField>
+				<reportElement x="2" y="137" width="272" height="31" uuid="8ae83db8-4dcd-4dcf-b25e-e2cb289e5aef"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["OBSERVAÇÕES: "+$F{observation}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle" evaluationTime="Page">
+				<reportElement x="1" y="4" width="271" height="55" uuid="dc225070-051c-480e-9ce4-b2f3c8f9bd85"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="170" y="64" width="100" height="12" uuid="75d1d052-7b6a-425e-8770-6290f4b50828"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["QUANTIDADE: "+$F{etiqueta}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="220" y="10" width="51" height="41" uuid="01462367-f5ac-4a77-a3ce-06709cb00824">
+					<printWhenExpression><![CDATA[$F{situation} != null && $F{situation}.trim().equals("REPROVADO")]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="7.0"/>
+				</graphicElement>
+			</line>
+			<line direction="BottomUp">
+				<reportElement key="" x="219" y="10" width="52" height="41" isPrintWhenDetailOverflows="true" uuid="bcc4e92f-667f-4487-b7dd-62e3b982abc5">
+					<printWhenExpression><![CDATA[$F{situation} != null && $F{situation}.trim().equals("REPROVADO")]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="7.0"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="0" y="10" width="100" height="41" uuid="0dfa5a30-4696-43e9-8634-37f5afe75654">
+					<printWhenExpression><![CDATA[$F{situation} != null && $F{situation}.trim().equals("REPROVADO")]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RECEBIMENTO REPROVADO"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
