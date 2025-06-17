@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BR_LABEL_TEST_BODY" pageWidth="283" pageHeight="184" columnWidth="270" leftMargin="8" rightMargin="5" topMargin="5" bottomMargin="5" uuid="9d3c245a-8d42-48c2-ba67-fb4d390e7a54">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BR_LABEL_TEST_BODY" pageWidth="283" pageHeight="184" columnWidth="274" leftMargin="4" rightMargin="5" topMargin="2" bottomMargin="5" uuid="9d3c245a-8d42-48c2-ba67-fb4d390e7a54">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dev_mode_opera"/>
 	<property name="com.jaspersoft.studio.unit." value="mm"/>
@@ -149,10 +149,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA["OBSERVAÇÃO: "+$P{observation}]]></textFieldExpression>
 			</textField>
-			<image hAlign="Center" vAlign="Middle">
-				<reportElement x="1" y="1" width="129" height="30" uuid="4caffe47-feec-43b6-a26c-0ba92dc337b2"/>
-				<imageExpression><![CDATA[$P{logo2}]]></imageExpression>
-			</image>
 		</band>
 	</detail>
 </jasperReport>
