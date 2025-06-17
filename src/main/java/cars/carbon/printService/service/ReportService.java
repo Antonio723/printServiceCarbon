@@ -134,4 +134,39 @@ public class ReportService {
             throw new JRException("Erro ao gerar relatório com conexão ao banco", e);
         }
     }
+
+    public byte[] gerarEtiquetareportEnfesto() throws JRException {
+        // Carrega o arquivo .jrxml do classpath
+        InputStream jasperStream = this.getClass().getResourceAsStream("/Reports/BR_REPORT_ENFESTO REPORT.jrxml");
+        if (jasperStream == null) {
+            throw new JRException("Arquivo .jrxml não encontrado no classpath.");
+        }
+        // Compila o relatório
+        JasperReport jasperReport = JasperCompileManager.compileReport(jasperStream);
+        // Preenche os parâmetros
+        Map<String, Object> parametros = new HashMap<>();
+
+        // Carrega a imagem do classpath como java.awt.Image
+        InputStream imageStream = this.getClass().getResourceAsStream("/images/LOGO_OPERA.jpg");
+        if (imageStream == null) {
+            throw new JRException("Imagem do logo não encontrada no classpath.");
+        }
+
+        try {
+            BufferedImage logoImage = ImageIO.read(imageStream);
+            parametros.put("logo", logoImage);
+        } catch (Exception e) {
+            throw new JRException("Erro ao carregar imagem do logo", e);
+        }
+
+        // Abre conexão com o banco e gera o relatório
+        try (Connection connection = dataSource.getConnection()) {
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, connection);
+
+            // Exporta o relatório para PDF e retorna como array de bytes
+            return JasperExportManager.exportReportToPdf(jasperPrint);
+        } catch (Exception e) {
+            throw new JRException("Erro ao gerar relatório com conexão ao banco", e);
+        }
+    }
 }

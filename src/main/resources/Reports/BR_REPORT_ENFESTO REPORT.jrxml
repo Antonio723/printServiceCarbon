@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BR_REPORT_ENFESTO REPORT" pageWidth="595" pageHeight="842" columnWidth="585" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="23ad0a04-9a29-46be-af9e-b600757e4c03">
+	<property name="com.jaspersoft.studio.unit." value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="mm"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dev_mode_opera"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString>
+		<![CDATA[select w.id as OT,
+			 to_char(w.enfesto_date, 'dd/mm/yy') as data_de_enfesto,
+			 w.cloth_type as Tipo_do_tecido,
+			 w.lote as lote,
+       w.plastic_type as tipo_do_plastico,
+       w.plates_layres as quantidade_de_camadas,
+       w.plates_quantity as quantidade_de_placas,
+       w.cloth_batch as lote_do_tecido,
+       w.plastic_batch as lote_do_plastico,
+       w.resined_batch as lote_RWO,
+       p.id as numero_da_placa,
+       p.plate_sequence as sequencia_da_placa,
+       p.id||'-'||p.workorderid as numero_placa_completo
+from workorder_table w
+inner join plates p
+on p.workorderid = w.id
+order by w.id, p.id
+]]>
+	</queryString>
+	<field name="ot" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="ot"/>
+		<property name="com.jaspersoft.studio.field.label" value="ot"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+	</field>
+	<field name="data_de_enfesto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="data_de_enfesto"/>
+		<property name="com.jaspersoft.studio.field.label" value="data_de_enfesto"/>
+	</field>
+	<field name="tipo_do_tecido" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_do_tecido"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo_do_tecido"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+	</field>
+	<field name="lote" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="lote"/>
+		<property name="com.jaspersoft.studio.field.label" value="lote"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+	</field>
+	<field name="tipo_do_plastico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_do_plastico"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo_do_plastico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+	</field>
+	<field name="quantidade_de_camadas" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="quantidade_de_camadas"/>
+		<property name="com.jaspersoft.studio.field.label" value="quantidade_de_camadas"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+	</field>
+	<field name="quantidade_de_placas" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="quantidade_de_placas"/>
+		<property name="com.jaspersoft.studio.field.label" value="quantidade_de_placas"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+	</field>
+	<field name="lote_do_tecido" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="lote_do_tecido"/>
+		<property name="com.jaspersoft.studio.field.label" value="lote_do_tecido"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+	</field>
+	<field name="lote_do_plastico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="lote_do_plastico"/>
+		<property name="com.jaspersoft.studio.field.label" value="lote_do_plastico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+	</field>
+	<field name="lote_rwo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="lote_rwo"/>
+		<property name="com.jaspersoft.studio.field.label" value="lote_rwo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+	</field>
+	<field name="numero_da_placa" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="numero_da_placa"/>
+		<property name="com.jaspersoft.studio.field.label" value="numero_da_placa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="plates"/>
+	</field>
+	<field name="sequencia_da_placa" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="sequencia_da_placa"/>
+		<property name="com.jaspersoft.studio.field.label" value="sequencia_da_placa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="plates"/>
+	</field>
+	<field name="numero_placa_completo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="numero_placa_completo"/>
+		<property name="com.jaspersoft.studio.field.label" value="numero_placa_completo"/>
+	</field>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<rectangle>
+				<reportElement x="160" y="0" width="90" height="26" uuid="0ebf9f94-16f7-41ec-a289-9ee7921654fc">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="160" y="0" width="90" height="26" uuid="fbd5f9c4-8b95-47e8-ac29-49db1c992b71">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOTE]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="250" y="0" width="52" height="26" uuid="6dba4995-a50a-4931-849d-e2e49ad8992e"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="250" y="0" width="52" height="26" uuid="f98ae62e-4ac3-4d33-b12f-892d94bdaaca">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLASTICO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="4" y="0" width="50" height="26" uuid="6f48261c-efb9-4b69-9043-8edbf8b78970">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="4" y="0" width="50" height="26" uuid="e65680cd-3213-4674-90a3-f3e7f70bb32c">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OT]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="54" y="0" width="50" height="26" uuid="252740d6-cd8e-44aa-8717-59e5c36a5474">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="54" y="0" width="50" height="26" uuid="a2d16c51-169a-417c-ac66-1762c542d96a">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLACA]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="372" y="0" width="70" height="26" uuid="2771f285-1dc2-4ff9-9737-556fe7d60e13"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="372" y="0" width="70" height="26" uuid="a561617b-19fc-447f-8337-d8ce740b8b73"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOTE DO TECIDO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="442" y="0" width="50" height="26" uuid="1621f62e-5d88-4c8d-b06c-ca88f3b1cbb1">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="442" y="0" width="50" height="26" uuid="2befb13f-66d5-462f-b450-bee01ee48f3e">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TECIDO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="103" y="0" width="57" height="26" uuid="b5af9ab7-3136-4b6a-8e97-eb8aeaa17d1b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="104" y="0" width="56" height="26" uuid="1d315373-eb86-4d58-9211-bb2a7142ea37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CAMADAS]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="302" y="0" width="70" height="26" uuid="f8049426-573b-4a1f-8b43-c342ab36f339"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="302" y="0" width="70" height="26" uuid="49e5c09b-a66f-4784-ac65-f2cdae541d6e"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOTE DO PLASTICO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="492" y="0" width="50" height="26" uuid="501e319c-150a-4dd7-a8e9-3a1850def61b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="492" y="0" width="50" height="26" uuid="5cb44f75-fa7a-453f-b37d-ec18b4c323b8"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LOTE RWO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="542" y="0" width="43" height="26" uuid="29daff38-21fd-439d-af14-b571d74e8210"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="542" y="0" width="44" height="26" uuid="7243fa7a-f5db-41f7-8623-323b953a44ff"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DATA DE ENFESTO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<rectangle>
+				<reportElement x="54" y="0" width="49" height="14" uuid="303f990a-c66a-44cd-8861-aec3d443f2b1">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="103" y="0" width="57" height="14" uuid="f12be6c2-0229-446f-927a-a3129f35368f"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="302" y="0" width="70" height="14" uuid="978cb9db-6f2c-43fe-a042-863dd6a1cac3"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="4" y="0" width="50" height="14" uuid="d9edda9a-ed44-45c9-934f-bc2acdd888b7">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="442" y="0" width="50" height="14" uuid="433b2a4c-9ccd-4f17-a136-8072a3aaad39">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="249" y="0" width="53" height="14" uuid="624f4cfe-2748-4ea2-adcf-c5cb06d7481c"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="372" y="0" width="70" height="14" uuid="7b1c0b99-10a4-4792-bb5c-a06ed49cc010"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="542" y="0" width="43" height="14" uuid="b5c7c766-b72c-497c-a550-9df89e8f78d3"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="492" y="0" width="50" height="14" uuid="834ee224-3869-4448-9bf9-be78e4dd2bd6"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="160" y="0" width="89" height="14" uuid="307a6e21-6f10-4d3f-a208-c7fe1b7ab54d">
+					<property name="com.jaspersoft.studio.unit.height" value="mm"/>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="4" y="0" width="50" height="14" uuid="13a56ab1-31a4-44d0-97c5-ea0e24a8c531"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{ot}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="54" y="0" width="49" height="14" uuid="eb9f7227-b67d-418d-a1c2-4de8192e805f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{numero_placa_completo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="104" y="0" width="56" height="14" uuid="c811db41-3645-4b70-ab04-8b86804bec72"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{quantidade_de_camadas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="0" width="88" height="14" uuid="a6fdd11a-c615-4056-a46c-68fc91f7908c"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{lote}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="250" y="0" width="52" height="14" uuid="c58f689d-e506-4ef3-9007-e38b55045d36"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{tipo_do_plastico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="0" width="70" height="14" uuid="9ca43bbc-59ec-4f1c-a764-0065d7e36d71"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{lote_do_plastico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="0" width="70" height="14" uuid="202486c8-6648-4b7b-96b1-cd49e08da825"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{lote_do_tecido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="442" y="0" width="50" height="14" uuid="41dff662-1934-42e5-9281-30098d480550"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{tipo_do_tecido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="493" y="0" width="50" height="14" uuid="97e86904-5f21-46ba-8354-9aaff0544ffd"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{lote_rwo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="543" y="0" width="42" height="14" uuid="0f1f3922-931a-4d84-bee2-c1b25d171807"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{data_de_enfesto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
