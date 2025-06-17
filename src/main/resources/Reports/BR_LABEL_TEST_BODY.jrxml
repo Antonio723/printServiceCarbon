@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BR_LABEL_TEST_BODY" pageWidth="283" pageHeight="184" columnWidth="274" leftMargin="4" rightMargin="5" topMargin="2" bottomMargin="5" uuid="9d3c245a-8d42-48c2-ba67-fb4d390e7a54">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BR_LABEL_TEST_BODY" pageWidth="283" pageHeight="170" columnWidth="274" leftMargin="4" rightMargin="5" topMargin="4" bottomMargin="5" uuid="9d3c245a-8d42-48c2-ba67-fb4d390e7a54">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="dev_mode_opera"/>
 	<property name="com.jaspersoft.studio.unit." value="mm"/>
@@ -44,7 +44,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="174" splitType="Stretch">
+		<band height="163" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 			<rectangle>
 				<reportElement x="130" y="0" width="138" height="32" uuid="00c28006-84a2-4508-a23f-11b389671eb9"/>
@@ -140,10 +140,10 @@
 				<textFieldExpression><![CDATA["LOTE: "+$P{plasticBatch}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="0" y="104" width="268" height="63" uuid="031dc70e-2bfa-4795-927f-65fa0eb7c35b"/>
+				<reportElement x="0" y="104" width="268" height="59" uuid="031dc70e-2bfa-4795-927f-65fa0eb7c35b"/>
 			</rectangle>
 			<textField>
-				<reportElement x="2" y="106" width="264" height="60" uuid="ec9660fa-f9e0-4090-b9ca-cee9d49537a5"/>
+				<reportElement x="2" y="106" width="264" height="57" uuid="ec9660fa-f9e0-4090-b9ca-cee9d49537a5"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
