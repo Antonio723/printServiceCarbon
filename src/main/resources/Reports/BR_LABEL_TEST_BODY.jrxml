@@ -44,7 +44,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="163" splitType="Stretch">
+		<band height="155" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="mm"/>
 			<rectangle>
 				<reportElement x="130" y="0" width="138" height="32" uuid="00c28006-84a2-4508-a23f-11b389671eb9"/>
@@ -140,10 +140,10 @@
 				<textFieldExpression><![CDATA["LOTE: "+$P{plasticBatch}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="0" y="104" width="268" height="59" uuid="031dc70e-2bfa-4795-927f-65fa0eb7c35b"/>
+				<reportElement x="0" y="104" width="268" height="51" uuid="031dc70e-2bfa-4795-927f-65fa0eb7c35b"/>
 			</rectangle>
 			<textField>
-				<reportElement x="2" y="106" width="264" height="57" uuid="ec9660fa-f9e0-4090-b9ca-cee9d49537a5"/>
+				<reportElement x="2" y="106" width="264" height="49" uuid="ec9660fa-f9e0-4090-b9ca-cee9d49537a5"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
