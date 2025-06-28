@@ -1,17 +1,20 @@
 package cars.carbon.printService.service;
 
 import cars.carbon.printService.dto.WorkOrderRequestDTO;
-import cars.carbon.printService.model.workOrders.Plates;
-import cars.carbon.printService.model.workOrders.WorkOrder;
+import cars.carbon.printService.model.WorkOrders.Plates;
+import cars.carbon.printService.model.WorkOrders.WorkOrder;
 import cars.carbon.printService.repository.WorkOrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import cars.carbon.printService.dto.workorder.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+
+
 
 @Service
 public class WorkOrderService {
@@ -88,5 +91,51 @@ public class WorkOrderService {
             return "Ordem de trabalho com ID " + id + " não encontrada.";
         }
     }
+
+
+    @Transactional
+    public List<EnfestoGroupDTO> listGroupedByEnfestoDate() {
+        List<WorkOrder> allOrders = workOrderRepository.findAll();
+
+        // Agrupar por data (ignorando o tempo)
+        Map<LocalDate, List<WorkOrder>> groupedByDate = allOrders.stream()
+                .collect(Collectors.groupingBy(w -> w.getEnfestoDate().toLocalDate()));
+
+        List<EnfestoGroupDTO> result = new ArrayList<>();
+
+        for (Map.Entry<LocalDate, List<WorkOrder>> entry : groupedByDate.entrySet()) {
+            LocalDate date = entry.getKey();
+            List<WorkOrder> workOrders = entry.getValue();
+
+            int totalPlacas = Math.toIntExact(workOrders.stream()
+                    .mapToLong(WorkOrder::getPlatesQuantity)
+                    .sum());
+
+            List<WorkOrderDTO> workOrderDTOs = workOrders.stream().map(w -> {
+                WorkOrderDTO dto = new WorkOrderDTO();
+                dto.setId(w.getId());
+                dto.setLote(w.getLote());
+                dto.setPlatesQuantity(w.getPlatesQuantity());
+                dto.setPlatesLayres(w.getPlatesLayres());
+                dto.setClothType(w.getClothType());
+                dto.setClothBatch(w.getClothBatch());
+                dto.setPlasticType(w.getPlasticType());
+                dto.setPlasticBatch(w.getPlasticBatch());
+                dto.setResinedBatch(w.getResinedBatch());
+                dto.setPlates(w.getPlates());
+                return dto;
+            }).collect(Collectors.toList());
+
+            EnfestoGroupDTO groupDTO = new EnfestoGroupDTO();
+            groupDTO.setEnfestoDate(date);
+            groupDTO.setTotalPlacas((long) totalPlacas);
+            groupDTO.setWorkOrders(workOrderDTOs);
+
+            result.add(groupDTO);
+        }
+
+        return result;
+    }
+
 
 }

@@ -1,7 +1,8 @@
 package cars.carbon.printService.controller;
 
 import cars.carbon.printService.dto.WorkOrderRequestDTO;
-import cars.carbon.printService.model.workOrders.WorkOrder;
+import cars.carbon.printService.dto.workorder.EnfestoGroupDTO;
+import cars.carbon.printService.model.WorkOrders.WorkOrder;
 import cars.carbon.printService.service.WorkOrderService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,12 @@ public class WorkOrderController {
     @GetMapping
     public List<WorkOrder> listAll(){
         return workOrderService.listAll();
+    }
+
+
+    @GetMapping("/enfesto/list")
+    public List<EnfestoGroupDTO> listGroupedByEnfestoDate() {
+        return workOrderService.listGroupedByEnfestoDate();
     }
 
     @PostMapping

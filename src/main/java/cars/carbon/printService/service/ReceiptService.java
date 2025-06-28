@@ -2,7 +2,6 @@ package cars.carbon.printService.service;
 
 import cars.carbon.printService.dto.ReceiptDTO;
 import cars.carbon.printService.model.receipt.Receipt;
-import cars.carbon.printService.model.workOrders.WorkOrder;
 import cars.carbon.printService.repository.ReceiptRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

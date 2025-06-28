@@ -1,5 +1,6 @@
 package cars.carbon.printService.dto;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class WorkOrderRequestDTO {
@@ -11,7 +12,7 @@ public class WorkOrderRequestDTO {
     private Long platesQuantity;
     private Long platesLayres;
     private String resinedBatch;
-    private Date enfestoDate;
+    private LocalDateTime enfestoDate;
 
     public String getLote() {
         return lote;
@@ -77,11 +78,11 @@ public class WorkOrderRequestDTO {
         this.resinedBatch = resinedBatch;
     }
 
-    public Date getEnfestoDate() {
+    public LocalDateTime  getEnfestoDate() {
         return enfestoDate;
     }
 
-    public void setEnfestoDate(Date enfestoDate) {
+    public void setEnfestoDate(LocalDateTime enfestoDate) {
         this.enfestoDate = enfestoDate;
     }
 }

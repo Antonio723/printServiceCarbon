@@ -1,5 +1,6 @@
-package cars.carbon.printService.model.workOrders;
+package cars.carbon.printService.model.WorkOrders;
 
+import cars.carbon.printService.model.WorkOrders.Plates;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -36,7 +37,7 @@ public class WorkOrder {
     private String plasticBatch;
     private Long platesLayres;
     private String resinedBatch;
-    private Date enfestoDate;
+    private LocalDateTime enfestoDate;
 
     @Deprecated
     public WorkOrder() {}
@@ -151,11 +152,11 @@ public class WorkOrder {
         this.resinedBatch = resinedBatch;
     }
 
-    public Date getEnfestoDate() {
+    public LocalDateTime  getEnfestoDate() {
         return enfestoDate;
     }
 
-    public void setEnfestoDate(Date enfestoDate) {
+    public void setEnfestoDate(LocalDateTime  enfestoDate) {
         this.enfestoDate = enfestoDate;
     }
 }
