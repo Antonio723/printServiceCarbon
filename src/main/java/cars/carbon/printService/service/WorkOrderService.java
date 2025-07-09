@@ -137,5 +137,25 @@ public class WorkOrderService {
         return result;
     }
 
+    @Transactional
+    public List<WorkOrderDTO> findAllByEnfestoDateRange(LocalDateTime start, LocalDateTime end) {
+        List<WorkOrder> workOrders = workOrderRepository.findByEnfestoDateBetween(start, end);
+
+        return workOrders.stream().map(w -> {
+            WorkOrderDTO dto = new WorkOrderDTO();
+            dto.setId(w.getId());
+            dto.setLote(w.getLote());
+            dto.setPlatesQuantity(w.getPlatesQuantity());
+            dto.setPlatesLayres(w.getPlatesLayres());
+            dto.setClothType(w.getClothType());
+            dto.setClothBatch(w.getClothBatch());
+            dto.setPlasticType(w.getPlasticType());
+            dto.setPlasticBatch(w.getPlasticBatch());
+            dto.setResinedBatch(w.getResinedBatch());
+            dto.setPlates(w.getPlates());
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
 
 }

@@ -3,6 +3,10 @@ package cars.carbon.printService.repository;
 import cars.carbon.printService.model.WorkOrders.WorkOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface WorkOrderRepository extends JpaRepository<WorkOrder, Long> {
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
+public interface WorkOrderRepository extends JpaRepository<WorkOrder, Long> {
+    List<WorkOrder> findByEnfestoDateBetween(LocalDateTime start, LocalDateTime end);
 }
