@@ -166,6 +166,10 @@ public class WorkOrderService {
     private void createDetailsSheet(Workbook workbook, List<WorkOrder> workOrders) {
         Sheet sheet = workbook.createSheet("Detalhes");
 
+        CreationHelper creationHelper = workbook.getCreationHelper();
+        CellStyle dateCellStyle = workbook.createCellStyle();
+        dateCellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("dd/MM/yyyy"));
+
         String[] headers = {"ID", "Lote", "Qtd Placas", "Camadas", "Tecido", "Lote Tecido", "Plástico", "Lote Plástico", "RWO", "Data Enfesto"};
         Row headerRow = sheet.createRow(0);
         for (int i = 0; i < headers.length; i++) {
@@ -184,7 +188,10 @@ public class WorkOrderService {
             row.createCell(6).setCellValue(wo.getPlasticType());
             row.createCell(7).setCellValue(wo.getPlasticBatch());
             row.createCell(8).setCellValue(wo.getResinedBatch());
-            row.createCell(9).setCellValue(wo.getEnfestoDate().toString());
+
+            Cell dateCell = row.createCell(9);
+            dateCell.setCellValue(java.sql.Date.valueOf(wo.getEnfestoDate().atStartOfDay().toLocalDate()));
+            dateCell.setCellStyle(dateCellStyle);
         }
 
         for (int i = 0; i < headers.length; i++) {
