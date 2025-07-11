@@ -8,5 +8,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface WorkOrderRepository extends JpaRepository<WorkOrder, Long> {
-    List<WorkOrder> findByEnfestoDateBetween(LocalDateTime start, LocalDateTime end);
+    List<WorkOrder> findByEnfestoDateBetween(LocalDate start, LocalDate end);
 }

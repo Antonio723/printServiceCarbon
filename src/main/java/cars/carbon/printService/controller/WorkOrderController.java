@@ -37,10 +37,7 @@ public class WorkOrderController {
             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
             @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end
     ) {
-        LocalDateTime startDateTime = start.atStartOfDay();
-        LocalDateTime endDateTime = end.atTime(23, 59, 59);
-
-        List<WorkOrderDTO> result = workOrderService.findAllByEnfestoDateRange(startDateTime, endDateTime);
+        List<WorkOrderDTO> result = workOrderService.findAllByEnfestoDateRange(start, end);
         return ResponseEntity.ok(result);
     }
 

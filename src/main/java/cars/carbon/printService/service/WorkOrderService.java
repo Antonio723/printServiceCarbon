@@ -95,7 +95,7 @@ public class WorkOrderService {
         List<WorkOrder> allOrders = workOrderRepository.findAll();
 
         Map<LocalDate, List<WorkOrder>> groupedByDate = allOrders.stream()
-                .collect(Collectors.groupingBy(w -> w.getEnfestoDate().toLocalDate()));
+                .collect(Collectors.groupingBy(w -> w.getEnfestoDate()));
 
         List<EnfestoGroupDTO> result = new ArrayList<>();
 
@@ -113,7 +113,6 @@ public class WorkOrderService {
                 dto.setLote(w.getLote());
                 dto.setPlatesQuantity(w.getPlatesQuantity());
                 dto.setPlatesLayres(w.getPlatesLayres());
-                dto.setClothType(w.getClothType());
                 dto.setClothBatch(w.getClothBatch());
                 dto.setPlasticType(w.getPlasticType());
                 dto.setPlasticBatch(w.getPlasticBatch());
@@ -134,7 +133,7 @@ public class WorkOrderService {
     }
 
     @Transactional
-    public List<WorkOrderDTO> findAllByEnfestoDateRange(LocalDateTime start, LocalDateTime end) {
+    public List<WorkOrderDTO> findAllByEnfestoDateRange(LocalDate start, LocalDate end) {
         List<WorkOrder> workOrders = workOrderRepository.findByEnfestoDateBetween(start, end);
 
         return workOrders.stream().map(w -> {
@@ -154,10 +153,7 @@ public class WorkOrderService {
     }
 
     public byte[] generateExcelReport(LocalDate start, LocalDate end) throws IOException {
-        LocalDateTime startDateTime = start.atStartOfDay();
-        LocalDateTime endDateTime = end.atTime(23, 59, 59);
-
-        List<WorkOrder> workOrders = workOrderRepository.findByEnfestoDateBetween(startDateTime, endDateTime);
+        List<WorkOrder> workOrders = workOrderRepository.findByEnfestoDateBetween(start, end);
 
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             createDetailsSheet(workbook, workOrders);
@@ -188,7 +184,7 @@ public class WorkOrderService {
             row.createCell(6).setCellValue(wo.getPlasticType());
             row.createCell(7).setCellValue(wo.getPlasticBatch());
             row.createCell(8).setCellValue(wo.getResinedBatch());
-            row.createCell(9).setCellValue(wo.getEnfestoDate().toLocalDate().toString());
+            row.createCell(9).setCellValue(wo.getEnfestoDate().toString());
         }
 
         for (int i = 0; i < headers.length; i++) {
