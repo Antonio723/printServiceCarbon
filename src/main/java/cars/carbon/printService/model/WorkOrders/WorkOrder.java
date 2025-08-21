@@ -1,6 +1,6 @@
 package cars.carbon.printService.model.WorkOrders;
 
-import cars.carbon.printService.model.WorkOrders.Plates;
+import cars.carbon.printService.model.plate.Plates;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 
 @Entity
 @Table(name = "Workorder_table")
@@ -28,7 +27,7 @@ public class WorkOrder {
     private String lote;
     private Long platesQuantity;
 
-    @OneToMany(mappedBy = "workorderid", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "workorderid", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Plates> plates = new ArrayList<>();
 

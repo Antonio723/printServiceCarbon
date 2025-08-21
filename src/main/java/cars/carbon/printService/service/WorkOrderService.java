@@ -1,7 +1,8 @@
 package cars.carbon.printService.service;
 
 import cars.carbon.printService.dto.WorkOrderRequestDTO;
-import cars.carbon.printService.model.WorkOrders.Plates;
+import cars.carbon.printService.enums.PlateStatus;
+import cars.carbon.printService.model.plate.Plates;
 import cars.carbon.printService.model.WorkOrders.WorkOrder;
 import cars.carbon.printService.repository.WorkOrderRepository;
 import jakarta.transaction.Transactional;
@@ -49,6 +50,8 @@ public class WorkOrderService {
             Plates plate = new Plates();
             plate.setPlateSequence(i);
             plate.setWorkorderid(savedWorkOrder);
+            plate.setLayers(dto.getPlatesLayres());
+            plate.setStatus(PlateStatus.EM_ENFESTO);
             platesList.add(plate);
         }
 
@@ -170,28 +173,37 @@ public class WorkOrderService {
         CellStyle dateCellStyle = workbook.createCellStyle();
         dateCellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("dd/MM/yyyy"));
 
-        String[] headers = {"ID", "Lote", "Qtd Placas", "Camadas", "Tecido", "Lote Tecido", "Plástico", "Lote Plástico", "RWO", "Data Enfesto"};
+        String[] headers = {"NUMERO DA PLACA", "OT", "LOTE", "Qtd PLACAS", "CAMADAS", "TECIDO", "LOTE TECIDO",
+                "PLÁSTICO", "LOTE PLÁSTICO", "RWO", "DATA ENFESTO", "SEQUENCIA DA PLACA", "STATUS DA PLACA"};
         Row headerRow = sheet.createRow(0);
         for (int i = 0; i < headers.length; i++) {
             headerRow.createCell(i).setCellValue(headers[i]);
         }
 
-        int rowNum = 1;
+        int rowIdx = 1;
         for (WorkOrder wo : workOrders) {
-            Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(wo.getId());
-            row.createCell(1).setCellValue(wo.getLote());
-            row.createCell(2).setCellValue(wo.getPlatesQuantity());
-            row.createCell(3).setCellValue(wo.getPlatesLayres());
-            row.createCell(4).setCellValue(wo.getClothType());
-            row.createCell(5).setCellValue(wo.getClothBatch());
-            row.createCell(6).setCellValue(wo.getPlasticType());
-            row.createCell(7).setCellValue(wo.getPlasticBatch());
-            row.createCell(8).setCellValue(wo.getResinedBatch());
+            if (wo.getPlates() != null) {
+                for (Plates plate : wo.getPlates()) {
+                    Row row = sheet.createRow(rowIdx++);
+                    row.createCell(0).setCellValue(plate.getId()+"-"+plate.getWorkorderid().getId());
+                    row.createCell(1).setCellValue(wo.getId());
+                    row.createCell(2).setCellValue(wo.getLote());
+                    row.createCell(3).setCellValue(wo.getPlatesQuantity());
+                    row.createCell(4).setCellValue(wo.getPlatesLayres());
+                    row.createCell(5).setCellValue(wo.getClothType());
+                    row.createCell(6).setCellValue(wo.getClothBatch());
+                    row.createCell(7).setCellValue(wo.getPlasticType());
+                    row.createCell(8).setCellValue(wo.getPlasticBatch());
+                    row.createCell(9).setCellValue(wo.getResinedBatch());
 
-            Cell dateCell = row.createCell(9);
-            dateCell.setCellValue(java.sql.Date.valueOf(wo.getEnfestoDate().atStartOfDay().toLocalDate()));
-            dateCell.setCellStyle(dateCellStyle);
+                    Cell dateCell = row.createCell(10);
+                    dateCell.setCellValue(java.sql.Date.valueOf(wo.getEnfestoDate().atStartOfDay().toLocalDate()));
+                    dateCell.setCellStyle(dateCellStyle);
+
+                    row.createCell(11).setCellValue(plate.getPlateSequence());
+                    row.createCell(12).setCellValue(plate.getStatus().name());
+                }
+            }
         }
 
         for (int i = 0; i < headers.length; i++) {

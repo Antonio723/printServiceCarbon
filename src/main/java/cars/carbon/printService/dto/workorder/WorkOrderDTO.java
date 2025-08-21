@@ -1,6 +1,6 @@
 package cars.carbon.printService.dto.workorder;
 
-import cars.carbon.printService.model.WorkOrders.Plates;
+import cars.carbon.printService.model.plate.Plates;
 
 import java.util.List;
 
