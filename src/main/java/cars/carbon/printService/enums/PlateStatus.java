@@ -5,7 +5,7 @@ public enum PlateStatus {
     EM_PACOTE,
     AGUARDANDO_AUTOCLAVE,
     EM_AUTOCLAVE,
-    FALHA_NO_CICLO,
+    REPASSE,
     EM_ESTOQUE,
     CONSUMO_PARCIAL,
     CONSUMO_TOTAL

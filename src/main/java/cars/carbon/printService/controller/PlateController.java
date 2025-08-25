@@ -1,18 +1,17 @@
 package cars.carbon.printService.controller;
 
 import cars.carbon.printService.dto.PlateStatusUpdateDTO;
+import cars.carbon.printService.dto.plate.PlateConsumptionDTO;
 import cars.carbon.printService.model.plate.Plates;
 import cars.carbon.printService.service.PlateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/plate")
@@ -32,4 +31,13 @@ public class PlateController {
         return ResponseEntity.ok(updatedPlate);
     }
 
+    @GetMapping("/getEstoque")
+    public ResponseEntity<List<Plates>> findByInStock(){
+        return ResponseEntity.ok(plateService.findByInStock());
+    }
+
+    @PostMapping("/addConsumption")
+    public Optional<Plates> addConsumption(@RequestBody PlateConsumptionDTO dto){
+        return ResponseEntity.ok(plateService.addConsumption(dto)).getBody();
+    }
 }

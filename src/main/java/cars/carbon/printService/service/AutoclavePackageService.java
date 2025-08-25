@@ -1,6 +1,7 @@
 package cars.carbon.printService.service;
 
 import cars.carbon.printService.dto.autoclave.PackageDTO;
+import cars.carbon.printService.dto.autoclave.packing.AutoclaveStatusChange;
 import cars.carbon.printService.enums.PackageStatus;
 import cars.carbon.printService.enums.PlateStatus;
 import cars.carbon.printService.model.autoclave.AutoclaveCycle;
@@ -65,18 +66,32 @@ public class AutoclavePackageService {
         pkg.getPlates().addAll(plates);
         return packageRepository.save(pkg);
     }
-    /**
-     * @Transactional
-    * public List<AutoclavePackage> getPackagesInCycle(Long cycleId) {
-    *   return packageRepository.findByAutoclaveCycleId(cycleId);
-    *}
-    */
 
     @Transactional
-    public void updatePackageStatus(Long packageId, PackageStatus status) {
-        AutoclavePackage pkg = packageRepository.findById(packageId)
-                .orElseThrow(() -> new RuntimeException("Package not found"));
-        pkg.setPackageStatus(status);
-        packageRepository.save(pkg);
+    public AutoclavePackage updatePackageStatus(Long packageId, AutoclaveStatusChange dto) {
+        PlateStatus plateStatus;
+        PackageStatus packageStatus;
+
+        switch (dto.getNewStatus()){
+            case "APROVADO":
+                plateStatus = PlateStatus.EM_ESTOQUE;
+                packageStatus = PackageStatus.APROVADO;
+                break;
+            case "FALHA":
+                plateStatus = PlateStatus.REPASSE;
+                packageStatus = PackageStatus.FALHOU;
+                break;
+            default:
+                throw new RuntimeException("Status não reconhecido");
+        }
+
+        AutoclavePackage pkg = packageRepository.findById(packageId).orElseThrow(() ->
+                new RuntimeException("Package not found"));
+        pkg.setPackageStatus(packageStatus);
+
+        if (pkg.getPlates() != null) {
+            pkg.getPlates().forEach(p -> p.setStatus(plateStatus));
+        }
+        return packageRepository.save(pkg);
     }
 }

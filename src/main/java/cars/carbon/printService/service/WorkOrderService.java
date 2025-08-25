@@ -52,6 +52,8 @@ public class WorkOrderService {
             plate.setWorkorderid(savedWorkOrder);
             plate.setLayers(dto.getPlatesLayres());
             plate.setStatus(PlateStatus.EM_ENFESTO);
+            plate.setInitSize(3.00);
+            plate.setActualSize(3.00);
             platesList.add(plate);
         }
 

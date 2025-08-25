@@ -1,6 +1,8 @@
 package cars.carbon.printService.controller.autoclave;
 
 import cars.carbon.printService.dto.autoclave.PackageDTO;
+import cars.carbon.printService.dto.autoclave.packing.AutoclaveStatusChange;
+import cars.carbon.printService.enums.PackageStatus;
 import cars.carbon.printService.model.autoclave.AutoclavePackage;
 import cars.carbon.printService.service.AutoclavePackageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,13 @@ public class PackageController {
         return ResponseEntity.ok(packageService.addPlatesToPackage(packid, plateIds));
     }
 
+
+    //todo: criar dto para alteração de status
+    @PostMapping("/{packid}/updateStatus")
+    public ResponseEntity<AutoclavePackage> updatePackageStatus(@PathVariable Long packid,
+                                                               @RequestBody AutoclaveStatusChange dto) {
+        return ResponseEntity.ok(packageService.updatePackageStatus(packid, dto));
+    }
     /*
     @GetMapping("/cycle/{cycleId}")
     public ResponseEntity<List<AutoclavePackage>> getPackagesByCycle(@PathVariable Long cycleId) {

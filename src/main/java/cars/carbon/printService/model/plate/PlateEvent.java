@@ -1,6 +1,8 @@
 package cars.carbon.printService.model.plate;
 
+import cars.carbon.printService.enums.PlateEventType;
 import cars.carbon.printService.enums.PlateStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +16,7 @@ public class PlateEvent {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
     @SequenceGenerator(
             name = "plate_history_seq",
             sequenceName = "plate_history_sequence",
@@ -22,10 +24,12 @@ public class PlateEvent {
     )
 
     @ManyToOne
+    @JoinColumn(name = "plate_id")
+    @JsonBackReference
     private Plates plate;
 
     @Enumerated(EnumType.STRING)
-    private PlateStatus type;
+    private PlateEventType type;
 
     private Double value; //Metragem consumida para operação de corte
 
@@ -33,5 +37,6 @@ public class PlateEvent {
 
     private LocalDateTime timestamp; //Gravar o horario da alteração
 
+    private String os;
 }
 

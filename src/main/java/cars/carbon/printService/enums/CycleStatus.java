@@ -8,6 +8,6 @@ public enum CycleStatus {
     PAUSADO,     /** Ciclo pausado manualmente*/
     COMPLETED,  /** Ciclo completado com sucesso*/
     CANCELADO,  /** Ciclo cancelado antes da conclusão */
-    FALHOU,     /** Falha durante a execução do ciclo*/
+    REPASSE,     /** Falha durante a execução do ciclo*/
     APPROVADO   /** Ciclo aprovado após análise de qualidade*/
 }
