@@ -84,6 +84,7 @@ public class AutoclavePackageService {
             default:
                 throw new RuntimeException("Status não reconhecido");
         }
+        
 
         AutoclavePackage pkg = packageRepository.findById(packageId).orElseThrow(() ->
                 new RuntimeException("Package not found"));
