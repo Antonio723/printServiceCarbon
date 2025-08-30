@@ -84,11 +84,15 @@ public class AutoclavePackageService {
             default:
                 throw new RuntimeException("Status não reconhecido");
         }
-        
+
 
         AutoclavePackage pkg = packageRepository.findById(packageId).orElseThrow(() ->
                 new RuntimeException("Package not found"));
         pkg.setPackageStatus(packageStatus);
+
+        if (packageStatus == PackageStatus.APROVADO) {
+            pkg.setFinishDate(LocalDateTime.now());
+        }
 
         if (pkg.getPlates() != null) {
             pkg.getPlates().forEach(p -> p.setStatus(plateStatus));
