@@ -4,6 +4,7 @@ import cars.carbon.printService.model.autoclave.AutoclaveCycle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AutoclaveCycleRepository extends JpaRepository<AutoclaveCycle, Long> {
@@ -11,4 +12,6 @@ public interface AutoclaveCycleRepository extends JpaRepository<AutoclaveCycle, 
             "LEFT JOIN FETCH c.packages p " +
             "LEFT JOIN FETCH p.plates")
     List<AutoclaveCycle> findAllWithPackagesAndPlates();
+    // No AutoclaveCycleRepository
+    List<AutoclaveCycle> findByCreationDateBetween(LocalDateTime start, LocalDateTime end);
 }

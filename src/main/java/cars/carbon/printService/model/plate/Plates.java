@@ -5,6 +5,7 @@ import cars.carbon.printService.model.WorkOrders.WorkOrder;
 import cars.carbon.printService.model.autoclave.AutoclavePackage;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,4 +53,10 @@ public class Plates {
 
     private double actualSize;
     private double initSize;
+
+    @JsonProperty("packageId")
+    public Long getPackageId() {
+        return currentPackage != null ? currentPackage.getId() : null;
+    }
+
 }

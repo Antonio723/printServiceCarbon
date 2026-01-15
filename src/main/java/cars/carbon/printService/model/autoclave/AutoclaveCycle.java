@@ -17,6 +17,7 @@ public class AutoclaveCycle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private LocalDateTime creationDate;
     private LocalDateTime startTime;
     private LocalDateTime cicleDate;
 

@@ -5,8 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PlateConsumptionDTO {
+public class PlateAddEventDTO {
     public long plateId;
-    public double length;
-    public String OS;
 }

@@ -1,14 +1,12 @@
 package cars.carbon.printService.service;
 
 import cars.carbon.printService.dto.PlateStatusUpdateDTO;
-import cars.carbon.printService.dto.plate.PlateConsumptionDTO;
-import cars.carbon.printService.enums.PlateEventType;
 import cars.carbon.printService.enums.PlateStatus;
-import cars.carbon.printService.model.plate.PlateEvent;
 import cars.carbon.printService.model.plate.Plates;
 import cars.carbon.printService.repository.PlateEventRepository;
 import cars.carbon.printService.repository.PlateRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PlateService {
     @Autowired
     private PlateRepository plateRepository;
@@ -55,38 +54,6 @@ public class PlateService {
                 PlateStatus.EM_ESTOQUE
         ).stream().collect(Collectors.toList());
         return plateRepository.findByStatusIn(stausSelecionados);
-    }
-
-    @Transactional
-    public Optional<Plates> addConsumption(PlateConsumptionDTO dto){
-        Optional<Plates> optionalPlate = plateRepository.findById(dto.getPlateId());
-
-        if (optionalPlate.isEmpty()) {
-            throw new RuntimeException("Placa com ID " + dto.getPlateId() + " não encontrada.");
-        }
-
-        Plates plate = optionalPlate.get();
-        plate.setActualSize(plate.getActualSize()-dto.getLength());
-        //Se a placa tiver saldo menor de 8Cm o estoque é eliminado
-        if(plate.getActualSize() >= 0.08){
-            plate.setStatus(PlateStatus.CONSUMO_PARCIAL);
-        }else if(dto.length >= plate.getActualSize()){
-            plate.setStatus(PlateStatus.CONSUMO_TOTAL);
-
-        }
-        Plates savedPlate = plateRepository.save(plate);
-
-        PlateEvent plateEvent = new PlateEvent();
-        plateEvent.setPlate(plate);
-        plateEvent.setType(PlateEventType.CONSUMO);
-        plateEvent.setValue(dto.length);
-        plateEvent.setTimestamp(LocalDateTime.now());
-        plateEvent.setDetails("Consumo feito pela OS:"+dto.getOS());
-        plateEvent.setOs(dto.getOS());
-
-        plateEventRepository.save(plateEvent);
-
-        return Optional.of(savedPlate);
     }
 
 }

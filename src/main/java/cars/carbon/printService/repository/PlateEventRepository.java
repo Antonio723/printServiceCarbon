@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface PlateEventRepository extends JpaRepository<PlateEvent, Long> {
-    List<PlateEvent> findByOs(String os);
+
 }

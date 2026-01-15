@@ -1,9 +1,13 @@
 package cars.carbon.printService.service;
 
 import cars.carbon.printService.dto.WorkOrderRequestDTO;
+import cars.carbon.printService.enums.PlateEventType;
 import cars.carbon.printService.enums.PlateStatus;
+import cars.carbon.printService.model.plate.PlateEvent;
 import cars.carbon.printService.model.plate.Plates;
 import cars.carbon.printService.model.WorkOrders.WorkOrder;
+import cars.carbon.printService.repository.PlateEventRepository;
+import cars.carbon.printService.repository.PlateRepository;
 import cars.carbon.printService.repository.WorkOrderRepository;
 import jakarta.transaction.Transactional;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -27,9 +31,14 @@ public class WorkOrderService {
 
     @Autowired
     private WorkOrderRepository workOrderRepository;
+    @Autowired
+    private PlateEventRepository plateEventRepository;
+    @Autowired
+    private PlateRepository plateRepository;
 
     @Transactional
     public WorkOrder createWorkOrder(WorkOrderRequestDTO dto) {
+
         WorkOrder workOrder = new WorkOrder();
         workOrder.setCreationDate(LocalDateTime.now());
         workOrder.setChangeDate(LocalDateTime.now());
@@ -46,7 +55,9 @@ public class WorkOrderService {
         WorkOrder savedWorkOrder = workOrderRepository.save(workOrder);
 
         List<Plates> platesList = new ArrayList<>();
+
         for (long i = 1; i <= dto.getPlatesQuantity(); i++) {
+
             Plates plate = new Plates();
             plate.setPlateSequence(i);
             plate.setWorkorderid(savedWorkOrder);
@@ -54,17 +65,49 @@ public class WorkOrderService {
             plate.setStatus(PlateStatus.EM_ENFESTO);
             plate.setInitSize(3.00);
             plate.setActualSize(3.00);
+
+            plate = plateRepository.save(plate);
+
+            PlateEvent event = new PlateEvent();
+            event.setPlate(plate);
+            event.setType(PlateEventType.CRIACAO);
+            event.setTimestamp(LocalDateTime.now());
+            event.setDetails(
+                    String.format(
+                            "Placa criada no enfesto OT %d Camadas: %d",
+                            savedWorkOrder.getId(),
+                            plate.getLayers()
+                    )
+            );
+            plateEventRepository.save(event);
+
             platesList.add(plate);
         }
 
         savedWorkOrder.setPlates(platesList);
+
         return workOrderRepository.save(savedWorkOrder);
     }
+
 
     @Transactional
     public WorkOrder updateWorkOrder(Long id, WorkOrderRequestDTO dto) {
         WorkOrder workOrder = workOrderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Ordem de trabalho não encontrada para o ID: " + id));
+
+        //verifica se possui plaas vinculadas e se foi alterado a quantidade de camadas
+        if(workOrder.getPlates() != null && workOrder.getPlatesLayres() != dto.getPlatesLayres()){
+            workOrder.getPlates().forEach(p-> {
+                    p.setLayers(dto.getPlatesLayres());
+                    PlateEvent event = new PlateEvent();
+                    event.setPlate(p);
+                    event.setDetails(String.format("Camadas alteradas de %d para %d", workOrder.getPlatesLayres(), dto.getPlatesLayres()));
+                    event.setTimestamp(LocalDateTime.now());
+                    event.setType(PlateEventType.ATUALIZACAO);
+                    plateEventRepository.save(event);
+            }
+            );
+        }
 
         workOrder.setChangeDate(LocalDateTime.now());
         workOrder.setLote(dto.getLote());
@@ -119,6 +162,7 @@ public class WorkOrderService {
                 dto.setPlatesQuantity(w.getPlatesQuantity());
                 dto.setPlatesLayres(w.getPlatesLayres());
                 dto.setClothBatch(w.getClothBatch());
+                dto.setClothType(w.getClothType());
                 dto.setPlasticType(w.getPlasticType());
                 dto.setPlasticBatch(w.getPlasticBatch());
                 dto.setResinedBatch(w.getResinedBatch());
@@ -138,24 +182,54 @@ public class WorkOrderService {
     }
 
     @Transactional
-    public List<WorkOrderDTO> findAllByEnfestoDateRange(LocalDate start, LocalDate end) {
+    public List<EnfestoGroupDTO> findAllByEnfestoDateRange(LocalDate start, LocalDate end) {
         List<WorkOrder> workOrders = workOrderRepository.findByEnfestoDateBetween(start, end);
 
-        return workOrders.stream().map(w -> {
-            WorkOrderDTO dto = new WorkOrderDTO();
-            dto.setId(w.getId());
-            dto.setLote(w.getLote());
-            dto.setPlatesQuantity(w.getPlatesQuantity());
-            dto.setPlatesLayres(w.getPlatesLayres());
-            dto.setClothType(w.getClothType());
-            dto.setClothBatch(w.getClothBatch());
-            dto.setPlasticType(w.getPlasticType());
-            dto.setPlasticBatch(w.getPlasticBatch());
-            dto.setResinedBatch(w.getResinedBatch());
-            dto.setPlates(w.getPlates());
-            return dto;
-        }).collect(Collectors.toList());
+        // Agrupa por data de enfesto
+        Map<LocalDate, List<WorkOrder>> groupedByDate = workOrders.stream()
+                .collect(Collectors.groupingBy(WorkOrder::getEnfestoDate));
+
+        List<EnfestoGroupDTO> result = new ArrayList<>();
+
+        for (Map.Entry<LocalDate, List<WorkOrder>> entry : groupedByDate.entrySet()) {
+            LocalDate date = entry.getKey();
+            List<WorkOrder> groupedOrders = entry.getValue();
+
+            // Soma total de placas da data
+            long totalPlacas = groupedOrders.stream()
+                    .mapToLong(WorkOrder::getPlatesQuantity)
+                    .sum();
+
+            // Converte para DTO
+            List<WorkOrderDTO> workOrderDTOs = groupedOrders.stream().map(w -> {
+                WorkOrderDTO dto = new WorkOrderDTO();
+                dto.setId(w.getId());
+                dto.setLote(w.getLote());
+                dto.setPlatesQuantity(w.getPlatesQuantity());
+                dto.setPlatesLayres(w.getPlatesLayres());
+                dto.setClothType(w.getClothType());
+                dto.setClothBatch(w.getClothBatch());
+                dto.setPlasticType(w.getPlasticType());
+                dto.setPlasticBatch(w.getPlasticBatch());
+                dto.setResinedBatch(w.getResinedBatch());
+                dto.setPlates(w.getPlates());
+                return dto;
+            }).collect(Collectors.toList());
+
+            EnfestoGroupDTO groupDTO = new EnfestoGroupDTO();
+            groupDTO.setEnfestoDate(date);
+            groupDTO.setTotalPlacas(totalPlacas);
+            groupDTO.setWorkOrders(workOrderDTOs);
+
+            result.add(groupDTO);
+        }
+
+        // Ordena pela data, se quiser manter organizado
+        result.sort(Comparator.comparing(EnfestoGroupDTO::getEnfestoDate));
+
+        return result;
     }
+
 
     public byte[] generateExcelReport(LocalDate start, LocalDate end) throws IOException {
         List<WorkOrder> workOrders = workOrderRepository.findByEnfestoDateBetween(start, end);

@@ -16,13 +16,4 @@ public class PlateEventController {
         this.plateEventService = plateEventService;
     }
 
-    @GetMapping("/grouped")
-    public List<Map<String, Object>> getGroupedEvents() {
-        return plateEventService.getEventsGroupedByOs();
-    }
-
-    @GetMapping("/grouped/{os}")
-    public List<Map<String, Object>> getGroupedEventsByOs(@PathVariable String os) {
-        return plateEventService.getEventsGroupedBySingleOs(os);
-    }
 }

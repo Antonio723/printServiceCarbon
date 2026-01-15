@@ -1,7 +1,7 @@
 package cars.carbon.printService.controller;
 
 import cars.carbon.printService.dto.PlateStatusUpdateDTO;
-import cars.carbon.printService.dto.plate.PlateConsumptionDTO;
+import cars.carbon.printService.dto.plate.PlateAddEventDTO;
 import cars.carbon.printService.model.plate.Plates;
 import cars.carbon.printService.service.PlateService;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +36,4 @@ public class PlateController {
         return ResponseEntity.ok(plateService.findByInStock());
     }
 
-    @PostMapping("/addConsumption")
-    public Optional<Plates> addConsumption(@RequestBody PlateConsumptionDTO dto){
-        return ResponseEntity.ok(plateService.addConsumption(dto)).getBody();
-    }
 }

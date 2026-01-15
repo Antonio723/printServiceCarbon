@@ -1,0 +1,163 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="modelo_carbon" language="java" pageWidth="283" pageHeight="184" orientation="Landscape" columnWidth="275" leftMargin="4" rightMargin="4" topMargin="4" bottomMargin="4" uuid="f92fc586-3fc9-4d12-ba14-839acb966896">
+    <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="dev_mode_opera"/>
+    <property name="com.jaspersoft.studio.unit." value="mm"/>
+    <property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
+    <property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
+    <property name="com.jaspersoft.studio.unit.topMargin" value="mm"/>
+    <property name="com.jaspersoft.studio.unit.bottomMargin" value="mm"/>
+    <property name="com.jaspersoft.studio.unit.leftMargin" value="mm"/>
+    <property name="com.jaspersoft.studio.unit.rightMargin" value="mm"/>
+    <property name="com.jaspersoft.studio.unit.columnWidth" value="mm"/>
+    <property name="com.jaspersoft.studio.unit.columnSpacing" value="mm"/>
+    <style name="center all" hTextAlign="Center" vTextAlign="Middle" hImageAlign="Center" vImageAlign="Middle"/>
+    <parameter name="id" class="java.lang.Long"/>
+    <parameter name="logo" class="java.awt.image.BufferedImage"/>
+    <query language="SQL"><![CDATA[WITH RECURSIVE etiquetas (
+  id,
+  intern_batch,
+  nf,
+  observation,
+  quantity,
+  receive_date,
+  responsible,
+  situation,
+  seq
+) AS (
+  -- Parte base com filtro por id
+  SELECT
+    id,
+    intern_batch,
+    nf,
+    observation,
+    quantity::integer,
+    receive_date,
+    responsible,
+    situation,
+    1 AS seq
+  FROM receipt
+  WHERE id =  $P{id}
+
+  UNION ALL
+
+  -- Parte recursiva
+  SELECT
+    e.id,
+    e.intern_batch,
+    e.nf,
+    e.observation,
+    e.quantity,
+    e.receive_date,
+    e.responsible,
+    e.situation,
+    e.seq + 1
+  FROM etiquetas e
+  WHERE e.seq < e.quantity
+)
+SELECT
+  id,
+  intern_batch,
+  nf,
+  observation,
+  quantity,
+  receive_date,
+  responsible,
+  situation,
+  seq,
+  seq || '/' || quantity AS etiqueta
+FROM etiquetas
+ORDER BY seq;]]></query>
+    <field name="id" class="java.lang.Long">
+        <property name="com.jaspersoft.studio.field.name" value="id"/>
+        <property name="com.jaspersoft.studio.field.label" value="id"/>
+        <property name="com.jaspersoft.studio.field.tree.path" value="workorder_table"/>
+    </field>
+    <field name="intern_batch" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="intern_batch"/>
+        <property name="com.jaspersoft.studio.field.label" value="intern_batch"/>
+    </field>
+    <field name="nf" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="nf"/>
+        <property name="com.jaspersoft.studio.field.label" value="nf"/>
+    </field>
+    <field name="observation" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="observation"/>
+        <property name="com.jaspersoft.studio.field.label" value="observation"/>
+    </field>
+    <field name="quantity" class="java.lang.Integer">
+        <property name="com.jaspersoft.studio.field.name" value="quantity"/>
+        <property name="com.jaspersoft.studio.field.label" value="quantity"/>
+    </field>
+    <field name="receive_date" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="receive_date"/>
+        <property name="com.jaspersoft.studio.field.label" value="receive_date"/>
+    </field>
+    <field name="responsible" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="responsible"/>
+        <property name="com.jaspersoft.studio.field.label" value="responsible"/>
+    </field>
+    <field name="situation" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="situation"/>
+        <property name="com.jaspersoft.studio.field.label" value="situation"/>
+    </field>
+    <field name="seq" class="java.lang.Integer">
+        <property name="com.jaspersoft.studio.field.name" value="seq"/>
+        <property name="com.jaspersoft.studio.field.label" value="seq"/>
+    </field>
+    <field name="etiqueta" class="java.lang.String">
+        <property name="com.jaspersoft.studio.field.name" value="etiqueta"/>
+        <property name="com.jaspersoft.studio.field.label" value="etiqueta"/>
+    </field>
+    <background splitType="Stretch"/>
+    <detail>
+        <band height="176" splitType="Stretch">
+            <element kind="rectangle" uuid="3a43cc1b-6b74-4fcd-a2a6-15525d530fc1" x="0" y="107" width="274" height="15">
+                <property name="com.jaspersoft.studio.unit.width" value="mm"/>
+            </element>
+            <element kind="rectangle" uuid="6cff70d2-0660-4969-87e7-ce2e05b2fb88" x="0" y="120" width="274" height="15">
+                <property name="com.jaspersoft.studio.unit.width" value="mm"/>
+            </element>
+            <element kind="textField" uuid="328e2807-fbb6-41e5-aa11-863eef4e3f6d" x="120" y="107" width="154" height="14" fontSize="8.0" hTextAlign="Left" vTextAlign="Middle">
+                <expression><![CDATA["RNC:  "+$F{responsible}]]></expression>
+            </element>
+            <element kind="rectangle" uuid="eb4e88ca-9f00-4640-8e44-8836f38dbc2f" x="0" y="76" width="274" height="16"/>
+            <element kind="rectangle" uuid="2fafc2d0-db71-4368-90b7-7eea9bb6487e" x="0" y="92" width="274" height="15"/>
+            <element kind="rectangle" uuid="ff74fb93-b157-4aa7-846f-3e0a234de3ee" x="0" y="62" width="274" height="15">
+                <property name="com.jaspersoft.studio.unit.width" value="mm"/>
+            </element>
+            <element kind="rectangle" uuid="78afa766-3c0f-4e98-85e4-5792d927037f" x="0" y="1" width="274" height="61"/>
+            <element kind="textField" uuid="502779b4-2a77-447b-b9e5-c580cc0f3cfa" x="1" y="63" width="272" height="14" fontSize="8.0" hTextAlign="Left" vTextAlign="Middle">
+                <expression><![CDATA["DATA DE GERAÇÃO: "+$F{receive_date} +"RESPONSÁVEL: "+$F{responsible}]]></expression>
+            </element>
+            <element kind="textField" uuid="4f1d02c1-e69d-4985-9e82-d52342b45640" x="2" y="108" width="118" height="14" fontSize="8.0" hTextAlign="Left" vTextAlign="Middle">
+                <expression><![CDATA["OS/OP :  "+$F{situation}]]></expression>
+            </element>
+            <element kind="textField" uuid="da5ccb48-d606-4b43-8cee-d6f768b75a87" x="2" y="93" width="272" height="14" fontSize="8.0" hTextAlign="Left" vTextAlign="Middle">
+                <expression><![CDATA["N.F. / PEDIDO DE COMPRA: "+$F{intern_batch}]]></expression>
+            </element>
+            <element kind="textField" uuid="5d52e6cb-0a90-41df-9bf7-fa7b57a86422" x="2" y="78" width="270" height="14" fontSize="8.0" hTextAlign="Left" vTextAlign="Middle">
+                <expression><![CDATA["MATERIAL: "+$F{nf}]]></expression>
+            </element>
+            <element kind="rectangle" uuid="bcc664a5-124a-4abc-a58e-5cc5d2705a0c" x="0" y="135" width="274" height="38"/>
+            <element kind="textField" uuid="8ae83db8-4dcd-4dcf-b25e-e2cb289e5aef" x="2" y="137" width="272" height="31" fontSize="8.0" hTextAlign="Left" vTextAlign="Top">
+                <expression><![CDATA["OBSERVAÇÕES: "+$F{observation}]]></expression>
+            </element>
+            <element kind="image" uuid="dc225070-051c-480e-9ce4-b2f3c8f9bd85" x="1" y="4" width="271" height="55" evaluationTime="Page" hImageAlign="Center" vImageAlign="Middle">
+                <expression><![CDATA[$P{logo}]]></expression>
+            </element>
+            <element kind="line" uuid="01462367-f5ac-4a77-a3ce-06709cb00824" x="220" y="10" width="51" height="41">
+                <printWhenExpression><![CDATA[$F{situation} != null && $F{situation}.trim().equals("REPROVADO")]]></printWhenExpression>
+                <pen lineWidth="7.0"/>
+            </element>
+            <element kind="line" uuid="bcc4e92f-667f-4487-b7dd-62e3b982abc5" key="" x="219" y="10" width="52" height="41" direction="BottomUp" printWhenDetailOverflows="true">
+                <printWhenExpression><![CDATA[$F{situation} != null && $F{situation}.trim().equals("REPROVADO")]]></printWhenExpression>
+                <pen lineWidth="7.0"/>
+            </element>
+            <element kind="textField" uuid="0dfa5a30-4696-43e9-8634-37f5afe75654" x="0" y="10" width="100" height="41" fontSize="12.0" bold="true" hTextAlign="Center">
+                <printWhenExpression><![CDATA[$F{situation} != null && $F{situation}.trim().equals("REPROVADO")]]></printWhenExpression>
+                <expression><![CDATA["PRODUTO REPROVADO"]]></expression>
+            </element>
+        </band>
+    </detail>
+</jasperReport>

@@ -15,28 +15,25 @@ import java.time.LocalDateTime;
 public class PlateEvent {
 
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "plate_history_seq")
     @SequenceGenerator(
             name = "plate_history_seq",
             sequenceName = "plate_history_sequence",
             allocationSize = 1
     )
+    private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "plate_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "plate_id", nullable = false)
     @JsonBackReference
     private Plates plate;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private PlateEventType type;
 
-    private Double value; //Metragem consumida para operação de corte
-
-    private String details; //"Usado para OS #1234", "Ciclo 88"
-
-    private LocalDateTime timestamp; //Gravar o horario da alteração
-
-    private String os;
+    @Column(nullable = false)
+    private LocalDateTime timestamp;
+    private String details;
 }
 

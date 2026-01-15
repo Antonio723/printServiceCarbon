@@ -33,11 +33,11 @@ public class WorkOrderController {
 
 
     @GetMapping("/plates-by-enfesto")
-    public ResponseEntity<List<WorkOrderDTO>> getPlatesByEnfestoRange(
+    public ResponseEntity<List<EnfestoGroupDTO>> getPlatesByEnfestoRange(
             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
             @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end
     ) {
-        List<WorkOrderDTO> result = workOrderService.findAllByEnfestoDateRange(start, end);
+        List<EnfestoGroupDTO> result = workOrderService.findAllByEnfestoDateRange(start, end);
         return ResponseEntity.ok(result);
     }
 
