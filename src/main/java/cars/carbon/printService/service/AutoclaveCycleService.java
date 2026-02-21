@@ -234,6 +234,16 @@ public class AutoclaveCycleService {
     }
 
     @Transactional
+    public List<AutoclaveCycleWithDetailsDTO> findByIncompleteCycles(){
+        List<AutoclaveCycle> cycles = autoclaveCycleRepository.findByIncompleteCycles();
+        return cycles.stream()
+                .map(this::convertToDetailedDTO)
+                .sorted((a, b) -> b.getCreationDate().compareTo(a.getCreationDate()))
+                .toList();
+    }
+
+
+    @Transactional
     public List<AutoclaveCycleWithDetailsDTO> listDetailedCycles() {
         List<AutoclaveCycle> cycles = autoclaveCycleRepository.findAll();
 

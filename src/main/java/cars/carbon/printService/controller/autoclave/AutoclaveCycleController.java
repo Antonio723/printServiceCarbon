@@ -79,6 +79,11 @@ public class AutoclaveCycleController {
         return ResponseEntity.ok(cycleService.listDetailedCycles());
     }
 
+    @GetMapping(value = "/incomplete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<AutoclaveCycleWithDetailsDTO>> findIncompleteCycles() {
+        return ResponseEntity.ok(cycleService.findByIncompleteCycles());
+    }
+
     @GetMapping("/by-cycle")
     public ResponseEntity<List<AutoclaveCycleWithDetailsDTO>> getCyclesByRangeDate(
             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
