@@ -7,5 +7,7 @@ import java.util.List;
 
 
 public interface PlateEventRepository extends JpaRepository<PlateEvent, Long> {
+    List<PlateEvent> findByPlateIdOrderByEventDateDesc(Long plateId);
+    void deleteByConsumptionReferenceId(Long id);
 
 }

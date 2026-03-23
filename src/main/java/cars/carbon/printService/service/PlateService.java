@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
@@ -56,4 +55,17 @@ public class PlateService {
         return plateRepository.findByStatusIn(stausSelecionados);
     }
 
+    public List<Plates> findAvailable() {
+        List<PlateStatus> stausSelecionados = EnumSet.of(
+                PlateStatus.CONSUMO_PARCIAL,
+                PlateStatus.EM_ESTOQUE
+        ).stream().collect(Collectors.toList());
+        return plateRepository.findByStatusIn(stausSelecionados);
+    }
+
+    @Transactional
+    public Optional<Plates> findById(Long id){
+        Optional<Plates> plate = plateRepository.findById(id);
+        return plate;
+    }
 }
