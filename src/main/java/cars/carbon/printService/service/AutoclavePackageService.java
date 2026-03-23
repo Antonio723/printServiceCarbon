@@ -70,9 +70,9 @@ public class AutoclavePackageService {
             plate.setStatus(PlateStatus.EM_PACOTE);
             PlateEvent event = new PlateEvent();
             event.setPlate(plate);
-            event.setDetails(String.format("Placa %d adicionada ao pacote %d", plate.getId(), pkg.getId()));
-            event.setTimestamp(LocalDateTime.now());
-            event.setType(PlateEventType.AUTOCLAVE);
+            event.setDescription(String.format("Placa %d adicionada ao pacote %d", plate.getId(), pkg.getId()));
+            event.setEventDate(LocalDateTime.now());
+            event.setEventType(PlateEventType.AUTOCLAVE);
             plateEventRepository.save(event);
             plateRepository.save(plate);
         });
@@ -96,9 +96,9 @@ public class AutoclavePackageService {
                             plate.setCurrentPackage(null);
                             PlateEvent repasseEvent = new PlateEvent();
                             repasseEvent.setPlate(plate);
-                            repasseEvent.setType(PlateEventType.AUTOCLAVE);
-                            repasseEvent.setTimestamp(LocalDateTime.now());
-                            repasseEvent.setDetails("Placa removida do pacote " + pkg.getId() + " por "+pkg.getPackageStatus());
+                            repasseEvent.setEventType(PlateEventType.AUTOCLAVE);
+                            repasseEvent.setEventDate(LocalDateTime.now());
+                            repasseEvent.setDescription("Placa removida do pacote " + pkg.getId() + " por "+pkg.getPackageStatus());
 
                             plateEventRepository.save(repasseEvent);
                             plateRepository.save(plate);

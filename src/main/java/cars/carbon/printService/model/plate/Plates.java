@@ -36,9 +36,9 @@ public class Plates {
     @Column(name = "plate_sequence")
     private long plateSequence;
 
-    @OneToMany(mappedBy = "plate", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "plate")
     @JsonManagedReference
-    private List<PlateEvent> events = new ArrayList<>();
+    private List<PlateEvent> events;
 
     @ManyToOne
     @JsonBackReference
@@ -54,9 +54,18 @@ public class Plates {
     private double actualSize;
     private double initSize;
 
+    @JsonProperty("workorderLote")
+    public String getWorkorderLote() {
+        return workorderid != null ? workorderid.getLote() : null;
+    }
+
+    @JsonProperty("workorderId")
+    public Long getWorkorderIdj() {
+        return workorderid != null ? workorderid.getId() : null;
+    }
+
     @JsonProperty("packageId")
     public Long getPackageId() {
         return currentPackage != null ? currentPackage.getId() : null;
     }
-
 }

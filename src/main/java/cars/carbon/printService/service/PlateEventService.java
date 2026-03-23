@@ -15,4 +15,13 @@ public class PlateEventService {
     public PlateEventService(PlateEventRepository plateEventRepository) {
         this.plateEventRepository = plateEventRepository;
     }
+
+    public List<PlateEvent> findByPlate(Long plateId){
+        return plateEventRepository.findByPlateIdOrderByEventDateDesc(plateId);
+    }
+
+    public List<PlateEvent> history(Long plateId){
+        return plateEventRepository.findByPlateIdOrderByEventDateDesc(plateId);
+    }
+
 }

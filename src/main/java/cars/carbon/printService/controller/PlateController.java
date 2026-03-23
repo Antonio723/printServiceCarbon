@@ -2,6 +2,7 @@ package cars.carbon.printService.controller;
 
 import cars.carbon.printService.dto.PlateStatusUpdateDTO;
 import cars.carbon.printService.dto.plate.PlateAddEventDTO;
+import cars.carbon.printService.model.plate.PlateEvent;
 import cars.carbon.printService.model.plate.Plates;
 import cars.carbon.printService.service.PlateService;
 import lombok.RequiredArgsConstructor;
@@ -36,4 +37,13 @@ public class PlateController {
         return ResponseEntity.ok(plateService.findByInStock());
     }
 
+    @GetMapping("/available")
+    public List<Plates> available() {
+        return plateService.findAvailable();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Plates> findById(@PathVariable Long id){
+        return plateService.findById(id);
+    }
 }

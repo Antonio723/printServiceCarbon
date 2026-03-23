@@ -63,16 +63,16 @@ public class WorkOrderService {
             plate.setWorkorderid(savedWorkOrder);
             plate.setLayers(dto.getPlatesLayres());
             plate.setStatus(PlateStatus.EM_ENFESTO);
-            plate.setInitSize(3.00);
-            plate.setActualSize(3.00);
+            plate.setInitSize(3000.00);
+            plate.setActualSize(3000.00);
 
             plate = plateRepository.save(plate);
 
             PlateEvent event = new PlateEvent();
             event.setPlate(plate);
-            event.setType(PlateEventType.CRIACAO);
-            event.setTimestamp(LocalDateTime.now());
-            event.setDetails(
+            event.setEventType(PlateEventType.CRIACAO);
+            event.setEventDate(LocalDateTime.now());
+            event.setDescription(
                     String.format(
                             "Placa criada no enfesto OT %d Camadas: %d",
                             savedWorkOrder.getId(),
@@ -101,9 +101,9 @@ public class WorkOrderService {
                     p.setLayers(dto.getPlatesLayres());
                     PlateEvent event = new PlateEvent();
                     event.setPlate(p);
-                    event.setDetails(String.format("Camadas alteradas de %d para %d", workOrder.getPlatesLayres(), dto.getPlatesLayres()));
-                    event.setTimestamp(LocalDateTime.now());
-                    event.setType(PlateEventType.ATUALIZACAO);
+                    event.setDescription(String.format("Camadas alteradas de %d para %d", workOrder.getPlatesLayres(), dto.getPlatesLayres()));
+                    event.setEventDate(LocalDateTime.now());
+                    event.setEventType(PlateEventType.ATUALIZACAO);
                     plateEventRepository.save(event);
             }
             );

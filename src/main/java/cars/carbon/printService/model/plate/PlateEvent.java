@@ -1,7 +1,6 @@
 package cars.carbon.printService.model.plate;
 
 import cars.carbon.printService.enums.PlateEventType;
-import cars.carbon.printService.enums.PlateStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,25 +14,25 @@ import java.time.LocalDateTime;
 public class PlateEvent {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "plate_history_seq")
-    @SequenceGenerator(
-            name = "plate_history_seq",
-            sequenceName = "plate_history_sequence",
-            allocationSize = 1
-    )
+    @GeneratedValue
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "plate_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "plate_id")
     @JsonBackReference
     private Plates plate;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private PlateEventType type;
+    private PlateEventType eventType;
 
-    @Column(nullable = false)
-    private LocalDateTime timestamp;
-    private String details;
+    private LocalDateTime eventDate;
+
+    @Column(name = "consumption_reference_id")
+    private Long consumptionReferenceId;
+
+    private Double consumedArea; //Usado apenas para consumo
+
+    private Double consumedLength; //Usado apenas para consumo
+
+    private String description;
 }
-

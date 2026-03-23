@@ -4,6 +4,7 @@ public enum PlateEventType {
     CRIACAO,
     ATUALIZACAO,
     AUTOCLAVE,
-    CONSUMO,
+    ENTRADA_EM_ESTOQUE,
+    USO_CORTE,
     CANCELAMENTO_DE_CONSUMO
 }
