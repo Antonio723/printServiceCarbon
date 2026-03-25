@@ -42,6 +42,9 @@ public class CuttingRecord {
     @Column(name = "kit_type")
     private KitType kitType;
 
+    @Column(name = "seal", nullable = false)
+    private String seal;
+
     @OneToMany(mappedBy = "cuttingRecord", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlateConsumption> consumptions = new ArrayList<>();
 

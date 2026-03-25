@@ -16,5 +16,6 @@ public class CuttingRecordResponseDTO {
     private LocalDateTime createdAt;
     private List<PlateConsumptionResponseDTO> consumptions;
     private MaterialType material;
+    private String seal;
     private KitType kitType;
 }

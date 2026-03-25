@@ -49,14 +49,10 @@ public class CuttingRecordService {
         );
 
         cuttingRecord.setOrderNumber(request.getOrderNumber());
-
-        cuttingRecord.setOrderDescription(
-                request.getOrderDescription()
-        );
-
+        cuttingRecord.setOrderDescription(request.getOrderDescription());
         cuttingRecord.setMaterial(request.getMaterial());
-
         cuttingRecord.setKitType(request.getKitType());
+        cuttingRecord.setSeal(request.getSeal());
 
         CuttingRecord savedRecord =
                 cuttingRecordRepository.save(cuttingRecord);
@@ -270,31 +266,13 @@ public class CuttingRecordService {
                 new CuttingRecordResponseDTO();
 
         dto.setId(record.getId());
-
-        dto.setProductionDate(
-                record.getProductionDate()
-        );
-
-        dto.setOrderNumber(
-                record.getOrderNumber()
-        );
-
-        dto.setOrderDescription(
-                record.getOrderDescription()
-        );
-
-        dto.setCreatedAt(
-                record.getCreatedAt()
-        );
-
-        dto.setMaterial(
-                record.getMaterial()
-        );
-
-        dto.setKitType(
-                record.getKitType()
-        );
-
+        dto.setProductionDate(record.getProductionDate());
+        dto.setOrderNumber(record.getOrderNumber());
+        dto.setOrderDescription(record.getOrderDescription());
+        dto.setCreatedAt(record.getCreatedAt());
+        dto.setMaterial(record.getMaterial());
+        dto.setKitType(record.getKitType());
+        dto.setSeal(record.getSeal());
         List<PlateConsumptionResponseDTO>
                 consumptionDTOs =
 
@@ -304,7 +282,6 @@ public class CuttingRecordService {
                         .collect(Collectors.toList());
 
         dto.setConsumptions(consumptionDTOs);
-
         return dto;
     }
 
@@ -456,9 +433,8 @@ public class CuttingRecordService {
                 request.getMaterial()
         );
 
-        record.setKitType(
-                request.getKitType()
-        );
+        record.setKitType(request.getKitType());
+        record.setSeal(request.getSeal());
 
         boolean isAramida =
                 request.getMaterial() == MaterialType.ARAMIDA;

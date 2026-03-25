@@ -18,6 +18,7 @@ public class CuttingRecordRequestDTO {
 
     private MaterialType material;
     private KitType kitType;
+    private String seal;
 
     private List<PlateConsumptionRequestDTO> consumptions;
 }
