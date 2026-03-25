@@ -42,7 +42,7 @@ public class CuttingRecord {
     @Column(name = "kit_type")
     private KitType kitType;
 
-    @Column(name = "seal", nullable = false)
+    @Column(name = "seal", nullable = true)
     private String seal;
 
     @OneToMany(mappedBy = "cuttingRecord", cascade = CascadeType.ALL, orphanRemoval = true)
