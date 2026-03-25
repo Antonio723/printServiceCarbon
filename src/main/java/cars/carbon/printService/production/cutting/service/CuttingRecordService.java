@@ -429,9 +429,7 @@ public class CuttingRecordService {
                 request.getOrderDescription()
         );
 
-        record.setMaterial(
-                request.getMaterial()
-        );
+        record.setMaterial(request.getMaterial());
 
         record.setKitType(request.getKitType());
         record.setSeal(request.getSeal());
