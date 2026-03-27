@@ -44,7 +44,11 @@ public class CuttingRecordService {
 
         cuttingRecord.setProductionDate(
                 request.getProductionDate() != null ?
-                        request.getProductionDate() :
+                        LocalDateTime.of(
+                                request.getProductionDate().toLocalDate(),
+                                LocalDateTime.now().toLocalTime()
+                        )
+                        :
                         LocalDateTime.now()
         );
 
