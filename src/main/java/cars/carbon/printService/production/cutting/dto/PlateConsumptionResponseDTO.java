@@ -1,8 +1,10 @@
 package cars.carbon.printService.production.cutting.dto;
 
 
+import cars.carbon.printService.production.invoice.dto.InvoiceItemDTO;
 import lombok.Data;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class PlateConsumptionResponseDTO {
@@ -15,4 +17,6 @@ public class PlateConsumptionResponseDTO {
     private Boolean manualBatch;
     private Long plateId;
     private String plateBatchNumber;
+
+    private List<InvoiceItemDTO> invoices;
 }

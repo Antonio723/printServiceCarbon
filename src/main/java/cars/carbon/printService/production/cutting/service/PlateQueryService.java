@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PlateQueryService {
-
     private final PlateRepository plateRepository;
-
 
     private OperaPlateResponseDTO mapToDTO(Plates plate) {
         OperaPlateResponseDTO dto = new OperaPlateResponseDTO();

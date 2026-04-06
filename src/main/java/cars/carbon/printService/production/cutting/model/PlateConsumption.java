@@ -2,11 +2,14 @@ package cars.carbon.printService.production.cutting.model;
 
 import cars.carbon.printService.model.plate.Plates;
 import cars.carbon.printService.production.cutting.enums.SupplierType;
+import cars.carbon.printService.production.invoice.model.PlateConsumptionInvoice;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "plate_consumptions")
@@ -19,14 +22,15 @@ public class PlateConsumption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "invoice_number")
-    private String invoiceNumber;
 
-    @Column(name = "batch_number", nullable = false)
-    private String batchNumber;
+    @OneToMany(mappedBy = "plateConsumption", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlateConsumptionInvoice> invoices = new ArrayList<>();
 
     @Column(name = "used_metrage", nullable = false, precision = 10, scale = 2)
     private BigDecimal usedMetrage;
+
+    @Column(name = "batch_number")
+    private String batchNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "supplier", nullable = false)
