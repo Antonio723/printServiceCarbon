@@ -2,7 +2,8 @@ package cars.carbon.printService.production.cutting.enums;
 
 public enum SupplierType {
     OPERA("Opera"),
-    COMTEC("Comtec");
+    COMTEC("Comtec"),
+    PROTECTA("Protecta");
 
     private final String description;
 
