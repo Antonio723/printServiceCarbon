@@ -30,3 +30,10 @@ spring:
     properties:
       hibernate.format_sql: true
       hibernate.jdbc.lob.non_contextual_creation: true
+
+invoice:
+  documents:
+    upload-dir: ${INVOICE_UPLOAD_DIR:uploads/invoice-documents}
+  integrity:
+    # Executa toda segunda-feira às 02:00. Sobrescreva via variável de ambiente.
+    cron: ${INVOICE_INTEGRITY_CRON:0 0 2 * * MON}
