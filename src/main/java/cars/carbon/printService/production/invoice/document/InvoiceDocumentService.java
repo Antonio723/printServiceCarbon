@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -40,13 +39,13 @@ public class InvoiceDocumentService {
             throw new IllegalArgumentException("Arquivo não pode ser vazio");
         }
 
-        Invoice invoice = invoiceRepo.findByInvoiceNumber(invoiceNumber)
+        Invoice invoice = invoiceRepo.findByNumber(invoiceNumber)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Nota fiscal não encontrada: " + invoiceNumber));
 
         // Busca versão ativa anterior deste tipo
         InvoiceDocument previous = documentRepo
-                .findByInvoice_InvoiceNumberAndTypeAndActiveTrue(invoiceNumber, type)
+                .findByInvoice_NumberAndTypeAndActiveTrue(invoiceNumber, type)
                 .orElse(null);
 
         int nextVersion = (previous != null) ? previous.getVersion() + 1 : 1;
@@ -85,12 +84,12 @@ public class InvoiceDocumentService {
     }
 
     public List<InvoiceDocumentResponse> listActive(String invoiceNumber) {
-        return documentRepo.findByInvoice_InvoiceNumberAndActiveTrue(invoiceNumber)
+        return documentRepo.findByInvoice_NumberAndActiveTrue(invoiceNumber)
                 .stream().map(this::toResponse).toList();
     }
 
     public List<InvoiceDocumentResponse> listHistory(String invoiceNumber) {
-        return documentRepo.findByInvoice_InvoiceNumberOrderByVersionDesc(invoiceNumber)
+        return documentRepo.findByInvoice_NumberOrderByVersionDesc(invoiceNumber)
                 .stream().map(this::toResponse).toList();
     }
 
@@ -126,7 +125,7 @@ public class InvoiceDocumentService {
     private InvoiceDocumentResponse toResponse(InvoiceDocument d) {
         return new InvoiceDocumentResponse(
                 d.getId(),
-                d.getInvoice().getInvoiceNumber(),
+                d.getInvoice().getNumber(),
                 d.getType(),
                 d.getOriginalFilename(),
                 d.getFileSizeBytes(),

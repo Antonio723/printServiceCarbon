@@ -10,18 +10,29 @@ public class CuttingRecordInvoiceUpdateRequest {
 
     private Long cuttingRecordId;
     private Boolean singleInvoice;
-    private String invoiceNumber;
     private List<ConsumptionDTO> consumptions;
 
     @Data
     public static class ConsumptionDTO {
         private Long id;
         private List<InvoiceDTO> invoices;
+        private List<SplitDTO> splits;
     }
 
     @Data
     public static class InvoiceDTO {
-        private String invoiceNumber;
+        private String number;
         private BigDecimal usedMetrage;
+    }
+
+    @Data
+    public static class SplitDTO {
+        private BigDecimal usedMetrage;
+        private InvoiceRefDTO invoice;
+    }
+
+    @Data
+    public static class InvoiceRefDTO {
+        private String number;
     }
 }

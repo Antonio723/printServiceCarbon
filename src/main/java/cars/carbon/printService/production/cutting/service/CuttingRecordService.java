@@ -12,11 +12,14 @@ import cars.carbon.printService.production.cutting.model.CuttingRecord;
 import cars.carbon.printService.production.cutting.model.PlateConsumption;
 import cars.carbon.printService.production.cutting.repository.CuttingRecordRepository;
 import cars.carbon.printService.production.cutting.repository.PlateConsumptionRepository;
+import cars.carbon.printService.production.invoice.dto.ConsumptionSplitResponseDTO;
+import cars.carbon.printService.production.invoice.model.ConsumptionSplit;
+import cars.carbon.printService.production.invoice.model.PlateConsumptionInvoice;
+import cars.carbon.printService.production.invoice.dto.InvoiceItemDTO;
+import cars.carbon.printService.production.invoice.repository.ConsumptionSplitRepository;
 import cars.carbon.printService.production.invoice.repository.PlateConsumptionInvoiceRepository;
 import cars.carbon.printService.repository.PlateEventRepository;
 import cars.carbon.printService.repository.PlateRepository;
-import cars.carbon.printService.production.invoice.model.PlateConsumptionInvoice;
-import cars.carbon.printService.production.invoice.dto.InvoiceItemDTO;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,7 @@ public class CuttingRecordService {
     private final PlateRepository plateRepository;
     private final PlateEventRepository plateEventRepository;
     private final PlateConsumptionInvoiceRepository plateConsumptionInvoiceRepository;
+    private final ConsumptionSplitRepository consumptionSplitRepository;
 
     // ================= CREATE =================
 
@@ -234,19 +238,21 @@ public class CuttingRecordService {
                 .map(PlateConsumption::getId)
                 .toList();
 
-        List<PlateConsumptionInvoice> invoices =
-                plateConsumptionInvoiceRepository.findByConsumptionIds(consumptionIds);
+        // Batch-load invoices and splits to avoid N+1
+        var groupedInvoices = plateConsumptionInvoiceRepository
+                .findByConsumptionIds(consumptionIds)
+                .stream()
+                .collect(Collectors.groupingBy(i -> i.getPlateConsumption().getId()));
 
-        var grouped = invoices.stream()
-                .collect(Collectors.groupingBy(
-                        i -> i.getPlateConsumption().getId()
-                ));
+        var groupedSplits = consumptionSplitRepository
+                .findByConsumptionIds(consumptionIds)
+                .stream()
+                .collect(Collectors.groupingBy(s -> s.getPlateConsumption().getId()));
 
         for (CuttingRecord record : records) {
             for (PlateConsumption c : record.getConsumptions()) {
-                c.setInvoices(
-                        grouped.getOrDefault(c.getId(), List.of())
-                );
+                c.setInvoices(groupedInvoices.getOrDefault(c.getId(), List.of()));
+                c.setSplits(groupedSplits.getOrDefault(c.getId(), List.of()));
             }
         }
 
@@ -318,25 +324,38 @@ public class CuttingRecordService {
             );
         }
 
-        // 🔥 NOVO: invoices
         dto.setInvoices(
                 consumption.getInvoices() != null
                         ? consumption.getInvoices().stream()
-                        .map(this::mapInvoiceToDTO)
-                        .collect(Collectors.toList())
+                          .map(this::mapInvoiceToDTO)
+                          .collect(Collectors.toList())
+                        : List.of()
+        );
+
+        dto.setSplits(
+                consumption.getSplits() != null
+                        ? consumption.getSplits().stream()
+                          .map(this::mapSplitToDTO)
+                          .collect(Collectors.toList())
                         : List.of()
         );
 
         return dto;
     }
 
-    private InvoiceItemDTO mapInvoiceToDTO(
-            PlateConsumptionInvoice entity){
-
+    private InvoiceItemDTO mapInvoiceToDTO(PlateConsumptionInvoice entity) {
         return new InvoiceItemDTO(
-                entity.getInvoice().getInvoiceNumber(),
+                entity.getInvoice().getNumber(),
                 entity.getUsedMetrage()
         );
+    }
+
+    private ConsumptionSplitResponseDTO mapSplitToDTO(ConsumptionSplit entity) {
+        ConsumptionSplitResponseDTO dto = new ConsumptionSplitResponseDTO();
+        dto.setId(entity.getId());
+        dto.setUsedMetrage(entity.getUsedMetrage());
+        dto.setInvoice(new InvoiceItemDTO(entity.getInvoice().getNumber(), entity.getUsedMetrage()));
+        return dto;
     }
 
     // ================= DELETE =================

@@ -2,6 +2,7 @@ package cars.carbon.printService.production.cutting.model;
 
 import cars.carbon.printService.model.plate.Plates;
 import cars.carbon.printService.production.cutting.enums.SupplierType;
+import cars.carbon.printService.production.invoice.model.ConsumptionSplit;
 import cars.carbon.printService.production.invoice.model.PlateConsumptionInvoice;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -25,6 +26,9 @@ public class PlateConsumption {
 
     @OneToMany(mappedBy = "plateConsumption", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PlateConsumptionInvoice> invoices = new ArrayList<>();
+
+    @OneToMany(mappedBy = "plateConsumption", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ConsumptionSplit> splits = new ArrayList<>();
 
     @Column(name = "used_metrage", nullable = false, precision = 10, scale = 2)
     private BigDecimal usedMetrage;

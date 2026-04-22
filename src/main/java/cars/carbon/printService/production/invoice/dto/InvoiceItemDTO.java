@@ -10,6 +10,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InvoiceItemDTO {
-    private String invoiceNumber;
+    private String number;
     private BigDecimal usedMetrage;
 }

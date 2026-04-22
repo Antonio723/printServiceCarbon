@@ -8,21 +8,19 @@ import java.util.Optional;
 
 public interface InvoiceDocumentRepository extends JpaRepository<InvoiceDocument, Long> {
 
-    List<InvoiceDocument> findByInvoice_InvoiceNumberAndActiveTrue(String invoiceNumber);
+    List<InvoiceDocument> findByInvoice_NumberAndActiveTrue(String number);
 
-    List<InvoiceDocument> findByInvoice_InvoiceNumberOrderByVersionDesc(String invoiceNumber);
+    List<InvoiceDocument> findByInvoice_NumberOrderByVersionDesc(String number);
 
-    Optional<InvoiceDocument> findByInvoice_InvoiceNumberAndTypeAndActiveTrue(
-            String invoiceNumber, DocumentType type);
+    Optional<InvoiceDocument> findByInvoice_NumberAndTypeAndActiveTrue(String number, DocumentType type);
 
     List<InvoiceDocument> findByActiveTrue();
 
     @Query("""
         SELECT d FROM InvoiceDocument d
-        WHERE d.invoice.invoiceNumber IN :invoiceNumbers
+        WHERE d.invoice.number IN :numbers
           AND d.type = :type
           AND d.active = true
         """)
-    List<InvoiceDocument> findActiveByInvoiceNumbersAndType(
-            List<String> invoiceNumbers, DocumentType type);
+    List<InvoiceDocument> findActiveByInvoiceNumbersAndType(List<String> numbers, DocumentType type);
 }

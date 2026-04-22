@@ -15,5 +15,11 @@ public class Invoice {
     private Long id;
 
     @Column(name = "invoice_number", nullable = false, unique = true)
-    private String invoiceNumber;
+    private String number;
+
+    @Column(name = "nf_file_path")
+    private String nfFilePath;
+
+    @Column(name = "correction_file_path")
+    private String correctionFilePath;
 }
