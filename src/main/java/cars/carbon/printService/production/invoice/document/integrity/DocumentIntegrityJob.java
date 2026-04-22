@@ -41,7 +41,7 @@ public class DocumentIntegrityJob {
             if (result.getStatus() != IntegrityStatus.OK) {
                 log.warn("[IntegrityJob] FALHA — doc.id={} nf={} status={} notes={}",
                         doc.getId(),
-                        doc.getInvoice().getInvoiceNumber(),
+                        doc.getInvoice().getNumber(),
                         result.getStatus(),
                         result.getNotes());
             }

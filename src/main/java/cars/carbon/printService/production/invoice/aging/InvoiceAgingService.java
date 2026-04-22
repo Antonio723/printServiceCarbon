@@ -4,6 +4,7 @@ import cars.carbon.printService.production.cutting.model.CuttingRecord;
 import cars.carbon.printService.production.cutting.model.PlateConsumption;
 import cars.carbon.printService.production.cutting.repository.CuttingRecordRepository;
 import cars.carbon.printService.production.invoice.model.PlateConsumptionInvoice;
+import cars.carbon.printService.production.invoice.repository.ConsumptionSplitRepository;
 import cars.carbon.printService.production.invoice.repository.PlateConsumptionInvoiceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class InvoiceAgingService {
 
     private final CuttingRecordRepository cuttingRepo;
     private final PlateConsumptionInvoiceRepository pciRepo;
+    private final ConsumptionSplitRepository splitRepo;
 
     public AgingReportResponse generate() {
 
@@ -35,13 +37,20 @@ public class InvoiceAgingService {
                 .stream()
                 .collect(Collectors.groupingBy(pci -> pci.getPlateConsumption().getId()));
 
+        Set<Long> consumptionsWithSplits = splitRepo
+                .findByConsumptionIds(consumptionIds)
+                .stream()
+                .map(s -> s.getPlateConsumption().getId())
+                .collect(Collectors.toSet());
+
         LocalDateTime now = LocalDateTime.now();
         List<AgingItemResponse> items = new ArrayList<>();
 
         for (CuttingRecord record : records) {
 
             List<PlateConsumption> unbilledConsumptions = record.getConsumptions().stream()
-                    .filter(c -> invoicesByConsumption.getOrDefault(c.getId(), List.of()).isEmpty())
+                    .filter(c -> invoicesByConsumption.getOrDefault(c.getId(), List.of()).isEmpty()
+                              && !consumptionsWithSplits.contains(c.getId()))
                     .toList();
 
             if (unbilledConsumptions.isEmpty()) continue;

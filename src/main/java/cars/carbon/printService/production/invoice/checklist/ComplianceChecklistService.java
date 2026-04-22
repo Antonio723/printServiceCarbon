@@ -7,6 +7,7 @@ import cars.carbon.printService.production.cutting.model.PlateConsumption;
 import cars.carbon.printService.production.cutting.repository.CuttingRecordRepository;
 import cars.carbon.printService.production.invoice.document.DocumentType;
 import cars.carbon.printService.production.invoice.document.InvoiceDocumentRepository;
+import cars.carbon.printService.production.invoice.model.ConsumptionSplit;
 import cars.carbon.printService.production.invoice.model.PlateConsumptionInvoice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -34,28 +36,35 @@ public class ComplianceChecklistService {
 
         for (PlateConsumption consumption : record.getConsumptions()) {
 
-            List<PlateConsumptionInvoice> invoices = consumption.getInvoices();
+            List<PlateConsumptionInvoice> invoices = consumption.getInvoices() != null
+                    ? consumption.getInvoices() : List.of();
+            List<ConsumptionSplit> splits = consumption.getSplits() != null
+                    ? consumption.getSplits() : List.of();
             String supplier = consumption.getSupplier() != null
                     ? consumption.getSupplier().name() : "N/A";
 
-            // Regra 1: todo consumo deve ter ao menos uma NF apontada
-            boolean hasInvoice = invoices != null && !invoices.isEmpty();
+            boolean hasInvoices = !invoices.isEmpty();
+            boolean hasSplits = !splits.isEmpty();
+            boolean hasBilling = hasInvoices || hasSplits;
+
+            // Regra 1: todo consumo deve ter ao menos uma NF apontada (ou divisões)
             items.add(new ChecklistItemResponse(
                     consumption.getId(),
                     supplier,
                     ChecklistRule.INVOICE_REQUIRED,
-                    hasInvoice
-                            ? "Nota fiscal apontada"
+                    hasBilling
+                            ? (hasSplits ? "Consumo dividido em " + splits.size() + " parte(s)" : "Nota fiscal apontada")
                             : "Consumo sem nota fiscal apontada",
-                    hasInvoice
+                    hasBilling
             ));
 
             // Regra 2: fornecedor Opera exige documento NF anexado
-            if (consumption.getSupplier() == SupplierType.OPERA && hasInvoice) {
+            if (consumption.getSupplier() == SupplierType.OPERA && hasBilling) {
 
-                Set<String> invoiceNumbers = invoices.stream()
-                        .map(pci -> pci.getInvoice().getInvoiceNumber())
-                        .collect(Collectors.toSet());
+                Set<String> invoiceNumbers = Stream.concat(
+                        invoices.stream().map(pci -> pci.getInvoice().getNumber()),
+                        splits.stream().map(s -> s.getInvoice().getNumber())
+                ).collect(Collectors.toSet());
 
                 List<String> numbersList = List.copyOf(invoiceNumbers);
                 boolean hasNfDoc = !documentRepo
@@ -74,10 +83,14 @@ public class ComplianceChecklistService {
             }
 
             // Regra 3: soma das metragens faturadas deve ser igual ao consumo total
-            if (hasInvoice) {
-                BigDecimal totalFaturado = invoices.stream()
+            if (hasBilling) {
+                BigDecimal invoicedTotal = invoices.stream()
                         .map(PlateConsumptionInvoice::getUsedMetrage)
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
+                BigDecimal splitsTotal = splits.stream()
+                        .map(ConsumptionSplit::getUsedMetrage)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+                BigDecimal totalFaturado = invoicedTotal.add(splitsTotal);
 
                 boolean balanced = totalFaturado.compareTo(consumption.getUsedMetrage()) == 0;
                 items.add(new ChecklistItemResponse(
