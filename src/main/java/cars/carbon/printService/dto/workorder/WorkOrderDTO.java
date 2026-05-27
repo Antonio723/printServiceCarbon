@@ -11,6 +11,7 @@ public class WorkOrderDTO {
     private Long platesLayres;
     private String clothType;
     private String clothBatch;
+    private String fabricSupplier;
     private String plasticType;
     private String plasticBatch;
     private String resinedBatch;
@@ -62,6 +63,14 @@ public class WorkOrderDTO {
 
     public void setClothBatch(String clothBatch) {
         this.clothBatch = clothBatch;
+    }
+
+    public String getFabricSupplier() {
+        return fabricSupplier;
+    }
+
+    public void setFabricSupplier(String fabricSupplier) {
+        this.fabricSupplier = fabricSupplier;
     }
 
     public String getPlasticType() {

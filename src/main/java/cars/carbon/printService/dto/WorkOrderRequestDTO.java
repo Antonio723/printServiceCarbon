@@ -7,6 +7,7 @@ import java.util.Date;
 public class WorkOrderRequestDTO {
     private String clothType;
     private String clothBatch;
+    private String fabricSupplier;
     private String plasticType;
     private String plasticBatch;
     private String lote;
@@ -37,6 +38,14 @@ public class WorkOrderRequestDTO {
 
     public void setClothBatch(String clothBatch) {
         this.clothBatch = clothBatch;
+    }
+
+    public String getFabricSupplier() {
+        return fabricSupplier;
+    }
+
+    public void setFabricSupplier(String fabricSupplier) {
+        this.fabricSupplier = fabricSupplier;
     }
 
     public String getPlasticBatch() {

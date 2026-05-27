@@ -47,6 +47,7 @@ public class WorkOrderService {
         workOrder.setPlasticType(dto.getPlasticType());
         workOrder.setPlasticBatch(dto.getPlasticBatch());
         workOrder.setClothBatch(dto.getClothBatch());
+        workOrder.setFabricSupplier(dto.getFabricSupplier());
         workOrder.setPlatesQuantity(dto.getPlatesQuantity());
         workOrder.setPlatesLayres(dto.getPlatesLayres());
         workOrder.setResinedBatch(dto.getResinedBatch());
@@ -115,6 +116,7 @@ public class WorkOrderService {
         workOrder.setPlasticType(dto.getPlasticType());
         workOrder.setPlasticBatch(dto.getPlasticBatch());
         workOrder.setClothBatch(dto.getClothBatch());
+        workOrder.setFabricSupplier(dto.getFabricSupplier());
         workOrder.setPlatesQuantity(dto.getPlatesQuantity());
         workOrder.setPlatesLayres(dto.getPlatesLayres());
         workOrder.setResinedBatch(dto.getResinedBatch());
@@ -163,6 +165,7 @@ public class WorkOrderService {
                 dto.setPlatesLayres(w.getPlatesLayres());
                 dto.setClothBatch(w.getClothBatch());
                 dto.setClothType(w.getClothType());
+                dto.setFabricSupplier(w.getFabricSupplier());
                 dto.setPlasticType(w.getPlasticType());
                 dto.setPlasticBatch(w.getPlasticBatch());
                 dto.setResinedBatch(w.getResinedBatch());
@@ -209,6 +212,7 @@ public class WorkOrderService {
                 dto.setPlatesLayres(w.getPlatesLayres());
                 dto.setClothType(w.getClothType());
                 dto.setClothBatch(w.getClothBatch());
+                dto.setFabricSupplier(w.getFabricSupplier());
                 dto.setPlasticType(w.getPlasticType());
                 dto.setPlasticBatch(w.getPlasticBatch());
                 dto.setResinedBatch(w.getResinedBatch());
