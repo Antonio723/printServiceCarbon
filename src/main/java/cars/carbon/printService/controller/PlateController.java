@@ -7,6 +7,7 @@ import cars.carbon.printService.model.plate.Plates;
 import cars.carbon.printService.service.PlateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+// Migrado para o Maestro (Fase 1). Mantido sob feature flag para rollback.
+@ConditionalOnProperty(name = "spring.legacy.endpoints.enabled", havingValue = "true")
 @RestController
 @RequestMapping("/plate")
 @RequiredArgsConstructor

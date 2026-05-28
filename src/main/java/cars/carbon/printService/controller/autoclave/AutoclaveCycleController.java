@@ -8,6 +8,7 @@ import cars.carbon.printService.dto.workorder.EnfestoGroupDTO;
 import cars.carbon.printService.model.autoclave.AutoclaveCycle;
 import cars.carbon.printService.service.AutoclaveCycleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.io.UrlResource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +27,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// Migrado para o Maestro (Fase 2). Mantido sob feature flag para rollback.
+@ConditionalOnProperty(name = "spring.legacy.endpoints.enabled", havingValue = "true")
 @RestController
 @RequestMapping("/autoclave/cycle")
 public class AutoclaveCycleController {

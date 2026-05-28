@@ -1,21 +1,21 @@
 package cars.carbon.printService.controller;
 
-import cars.carbon.printService.dto.WorkOrderRequestDTO;
-import cars.carbon.printService.dto.workorder.EnfestoGroupDTO;
-import cars.carbon.printService.dto.workorder.WorkOrderDTO;
-import cars.carbon.printService.model.WorkOrders.WorkOrder;
 import cars.carbon.printService.service.WorkOrderService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.io.IOException;
+import java.time.LocalDate;
 
+// Migrado para o Maestro (Fase 0). Mantido sob feature flag para rollback.
+@ConditionalOnProperty(name = "spring.legacy.endpoints.enabled", havingValue = "true")
 @RestController
 @RequestMapping("/workorder")
 public class WorkOrderController {
@@ -24,41 +24,6 @@ public class WorkOrderController {
 
     public WorkOrderController(WorkOrderService workOrderService) {
         this.workOrderService = workOrderService;
-    }
-
-    @GetMapping
-    public List<WorkOrder> listAll(){
-        return workOrderService.listAll();
-    }
-
-
-    @GetMapping("/plates-by-enfesto")
-    public ResponseEntity<List<EnfestoGroupDTO>> getPlatesByEnfestoRange(
-            @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
-            @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end
-    ) {
-        List<EnfestoGroupDTO> result = workOrderService.findAllByEnfestoDateRange(start, end);
-        return ResponseEntity.ok(result);
-    }
-
-    @GetMapping("/enfesto/list")
-    public List<EnfestoGroupDTO> listGroupedByEnfestoDate() {
-        return workOrderService.listGroupedByEnfestoDate();
-    }
-
-    @PostMapping
-    public WorkOrder create(@RequestBody WorkOrderRequestDTO workOrder){
-        return workOrderService.createWorkOrder(workOrder);
-    }
-
-    @DeleteMapping
-    public String delete(@RequestParam Long id){
-        return workOrderService.deleteAllById(id);
-    }
-
-    @PutMapping("/{id}")
-    public WorkOrder update(@PathVariable Long id, @RequestBody WorkOrderRequestDTO dto) {
-        return workOrderService.updateWorkOrder(id, dto);
     }
 
     @GetMapping("/export/excel")

@@ -21,6 +21,10 @@ public class AutoclaveCycle {
     private LocalDateTime startTime;
     private LocalDateTime cicleDate;
 
+    // Maestro grava CycleStatus como VARCHAR (R-1 da spec). Sem @Enumerated
+    // Hibernate gravaria ordinal INTEGER e quebraria a leitura dos registros
+    // criados pelo Maestro.
+    @Enumerated(EnumType.STRING)
     private CycleStatus status;
 
     private String reportFilePath;

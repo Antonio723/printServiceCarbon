@@ -5,6 +5,7 @@ import cars.carbon.printService.production.invoice.document.InvoiceDocumentRepos
 import cars.carbon.printService.production.invoice.document.InvoiceDocumentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@ConditionalOnProperty(name = "spring.legacy.endpoints.enabled", havingValue = "true")
 @RequiredArgsConstructor
 @Slf4j
 public class DocumentIntegrityJob {

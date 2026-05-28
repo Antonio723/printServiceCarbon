@@ -3,10 +3,13 @@ package cars.carbon.printService.controller;
 import cars.carbon.printService.dto.ReceiptDTO;
 import cars.carbon.printService.model.receipt.Receipt;
 import cars.carbon.printService.service.ReceiptService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// Migrado para o Maestro (Fase 5). Mantido sob feature flag para rollback.
+@ConditionalOnProperty(name = "spring.legacy.endpoints.enabled", havingValue = "true")
 @RestController
 @RequestMapping("/receipt")
 public class ReceiptController {

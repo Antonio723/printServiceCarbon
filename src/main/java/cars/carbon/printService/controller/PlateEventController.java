@@ -4,12 +4,15 @@ import cars.carbon.printService.model.plate.PlateEvent;
 import cars.carbon.printService.production.cutting.enums.KitType;
 import cars.carbon.printService.production.cutting.enums.MaterialType;
 import cars.carbon.printService.service.PlateEventService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// Migrado para o Maestro (Fase 1). Mantido sob feature flag para rollback.
+@ConditionalOnProperty(name = "spring.legacy.endpoints.enabled", havingValue = "true")
 @RestController
 @RequestMapping("/plate-events")
 public class PlateEventController {

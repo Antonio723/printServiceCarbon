@@ -36,4 +36,9 @@ invoice:
     upload-dir: ${INVOICE_UPLOAD_DIR:uploads/invoice-documents}
   integrity:
     # Executa toda segunda-feira às 02:00. Sobrescreva via variável de ambiente.
-    cron: ${INVOICE_INTEGRITY_CRON:0 0 2 * * MON}
+    cron: ${INVOICE_INTEGRITY_CRON:-}
+
+# Endpoints legacy do Spring para domínios já migrados para o Maestro
+# (WorkOrder/Plate/Autoclave/Cutting). Default: desligados. Ligue temporariamente
+# via SPRING_LEGACY_ENDPOINTS_ENABLED=true se precisar reativar durante rollback.
+spring.legacy.endpoints.enabled: ${SPRING_LEGACY_ENDPOINTS_ENABLED:false}

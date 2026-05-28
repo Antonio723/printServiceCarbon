@@ -7,11 +7,14 @@ import cars.carbon.printService.enums.PackageStatus;
 import cars.carbon.printService.model.autoclave.AutoclavePackage;
 import cars.carbon.printService.service.AutoclavePackageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// Migrado para o Maestro (Fase 2). Mantido sob feature flag para rollback.
+@ConditionalOnProperty(name = "spring.legacy.endpoints.enabled", havingValue = "true")
 @RestController
 @RequestMapping("/autoclave/package")
 public class PackageController {

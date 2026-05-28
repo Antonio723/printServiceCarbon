@@ -1,29 +1,33 @@
 package cars.carbon.printService.service;
 
-import cars.carbon.printService.dto.WorkOrderRequestDTO;
-import cars.carbon.printService.enums.PlateEventType;
-import cars.carbon.printService.enums.PlateStatus;
-import cars.carbon.printService.model.plate.PlateEvent;
-import cars.carbon.printService.model.plate.Plates;
 import cars.carbon.printService.model.WorkOrders.WorkOrder;
-import cars.carbon.printService.repository.PlateEventRepository;
-import cars.carbon.printService.repository.PlateRepository;
+import cars.carbon.printService.model.plate.Plates;
 import cars.carbon.printService.repository.WorkOrderRepository;
-import jakarta.transaction.Transactional;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cars.carbon.printService.dto.workorder.*;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.TextStyle;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,209 +35,6 @@ public class WorkOrderService {
 
     @Autowired
     private WorkOrderRepository workOrderRepository;
-    @Autowired
-    private PlateEventRepository plateEventRepository;
-    @Autowired
-    private PlateRepository plateRepository;
-
-    @Transactional
-    public WorkOrder createWorkOrder(WorkOrderRequestDTO dto) {
-
-        WorkOrder workOrder = new WorkOrder();
-        workOrder.setCreationDate(LocalDateTime.now());
-        workOrder.setChangeDate(LocalDateTime.now());
-        workOrder.setLote(dto.getLote());
-        workOrder.setClothType(dto.getClothType());
-        workOrder.setPlasticType(dto.getPlasticType());
-        workOrder.setPlasticBatch(dto.getPlasticBatch());
-        workOrder.setClothBatch(dto.getClothBatch());
-        workOrder.setFabricSupplier(dto.getFabricSupplier());
-        workOrder.setPlatesQuantity(dto.getPlatesQuantity());
-        workOrder.setPlatesLayres(dto.getPlatesLayres());
-        workOrder.setResinedBatch(dto.getResinedBatch());
-        workOrder.setEnfestoDate(dto.getEnfestoDate());
-
-        WorkOrder savedWorkOrder = workOrderRepository.save(workOrder);
-
-        List<Plates> platesList = new ArrayList<>();
-
-        for (long i = 1; i <= dto.getPlatesQuantity(); i++) {
-
-            Plates plate = new Plates();
-            plate.setPlateSequence(i);
-            plate.setWorkorderid(savedWorkOrder);
-            plate.setLayers(dto.getPlatesLayres());
-            plate.setStatus(PlateStatus.EM_ENFESTO);
-            plate.setInitSize(3000.00);
-            plate.setActualSize(3000.00);
-
-            plate = plateRepository.save(plate);
-
-            PlateEvent event = new PlateEvent();
-            event.setPlate(plate);
-            event.setEventType(PlateEventType.CRIACAO);
-            event.setEventDate(LocalDateTime.now());
-            event.setDescription(
-                    String.format(
-                            "Placa criada no enfesto OT %d Camadas: %d",
-                            savedWorkOrder.getId(),
-                            plate.getLayers()
-                    )
-            );
-            plateEventRepository.save(event);
-
-            platesList.add(plate);
-        }
-
-        savedWorkOrder.setPlates(platesList);
-
-        return workOrderRepository.save(savedWorkOrder);
-    }
-
-
-    @Transactional
-    public WorkOrder updateWorkOrder(Long id, WorkOrderRequestDTO dto) {
-        WorkOrder workOrder = workOrderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ordem de trabalho não encontrada para o ID: " + id));
-
-        //verifica se possui plaas vinculadas e se foi alterado a quantidade de camadas
-        if(workOrder.getPlates() != null && workOrder.getPlatesLayres() != dto.getPlatesLayres()){
-            workOrder.getPlates().forEach(p-> {
-                    p.setLayers(dto.getPlatesLayres());
-                    PlateEvent event = new PlateEvent();
-                    event.setPlate(p);
-                    event.setDescription(String.format("Camadas alteradas de %d para %d", workOrder.getPlatesLayres(), dto.getPlatesLayres()));
-                    event.setEventDate(LocalDateTime.now());
-                    event.setEventType(PlateEventType.ATUALIZACAO);
-                    plateEventRepository.save(event);
-            }
-            );
-        }
-
-        workOrder.setChangeDate(LocalDateTime.now());
-        workOrder.setLote(dto.getLote());
-        workOrder.setClothType(dto.getClothType());
-        workOrder.setPlasticType(dto.getPlasticType());
-        workOrder.setPlasticBatch(dto.getPlasticBatch());
-        workOrder.setClothBatch(dto.getClothBatch());
-        workOrder.setFabricSupplier(dto.getFabricSupplier());
-        workOrder.setPlatesQuantity(dto.getPlatesQuantity());
-        workOrder.setPlatesLayres(dto.getPlatesLayres());
-        workOrder.setResinedBatch(dto.getResinedBatch());
-        workOrder.setEnfestoDate(dto.getEnfestoDate());
-
-        return workOrderRepository.save(workOrder);
-    }
-
-    @Transactional
-    public List<WorkOrder> listAll() {
-        return workOrderRepository.findAll();
-    }
-
-    @Transactional
-    public String deleteAllById(Long id) {
-        if (workOrderRepository.existsById(id)) {
-            workOrderRepository.deleteById(id);
-            return "Ordem de trabalho deletada com sucesso.";
-        } else {
-            return "Ordem de trabalho com ID " + id + " não encontrada.";
-        }
-    }
-
-    @Transactional
-    public List<EnfestoGroupDTO> listGroupedByEnfestoDate() {
-        List<WorkOrder> allOrders = workOrderRepository.findAll();
-
-        Map<LocalDate, List<WorkOrder>> groupedByDate = allOrders.stream()
-                .collect(Collectors.groupingBy(w -> w.getEnfestoDate()));
-
-        List<EnfestoGroupDTO> result = new ArrayList<>();
-
-        for (Map.Entry<LocalDate, List<WorkOrder>> entry : groupedByDate.entrySet()) {
-            LocalDate date = entry.getKey();
-            List<WorkOrder> workOrders = entry.getValue();
-
-            long totalPlacas = workOrders.stream()
-                    .mapToLong(WorkOrder::getPlatesQuantity)
-                    .sum();
-
-            List<WorkOrderDTO> workOrderDTOs = workOrders.stream().map(w -> {
-                WorkOrderDTO dto = new WorkOrderDTO();
-                dto.setId(w.getId());
-                dto.setLote(w.getLote());
-                dto.setPlatesQuantity(w.getPlatesQuantity());
-                dto.setPlatesLayres(w.getPlatesLayres());
-                dto.setClothBatch(w.getClothBatch());
-                dto.setClothType(w.getClothType());
-                dto.setFabricSupplier(w.getFabricSupplier());
-                dto.setPlasticType(w.getPlasticType());
-                dto.setPlasticBatch(w.getPlasticBatch());
-                dto.setResinedBatch(w.getResinedBatch());
-                dto.setPlates(w.getPlates());
-                return dto;
-            }).collect(Collectors.toList());
-
-            EnfestoGroupDTO groupDTO = new EnfestoGroupDTO();
-            groupDTO.setEnfestoDate(date);
-            groupDTO.setTotalPlacas(totalPlacas);
-            groupDTO.setWorkOrders(workOrderDTOs);
-
-            result.add(groupDTO);
-        }
-
-        return result;
-    }
-
-    @Transactional
-    public List<EnfestoGroupDTO> findAllByEnfestoDateRange(LocalDate start, LocalDate end) {
-        List<WorkOrder> workOrders = workOrderRepository.findByEnfestoDateBetween(start, end);
-
-        // Agrupa por data de enfesto
-        Map<LocalDate, List<WorkOrder>> groupedByDate = workOrders.stream()
-                .collect(Collectors.groupingBy(WorkOrder::getEnfestoDate));
-
-        List<EnfestoGroupDTO> result = new ArrayList<>();
-
-        for (Map.Entry<LocalDate, List<WorkOrder>> entry : groupedByDate.entrySet()) {
-            LocalDate date = entry.getKey();
-            List<WorkOrder> groupedOrders = entry.getValue();
-
-            // Soma total de placas da data
-            long totalPlacas = groupedOrders.stream()
-                    .mapToLong(WorkOrder::getPlatesQuantity)
-                    .sum();
-
-            // Converte para DTO
-            List<WorkOrderDTO> workOrderDTOs = groupedOrders.stream().map(w -> {
-                WorkOrderDTO dto = new WorkOrderDTO();
-                dto.setId(w.getId());
-                dto.setLote(w.getLote());
-                dto.setPlatesQuantity(w.getPlatesQuantity());
-                dto.setPlatesLayres(w.getPlatesLayres());
-                dto.setClothType(w.getClothType());
-                dto.setClothBatch(w.getClothBatch());
-                dto.setFabricSupplier(w.getFabricSupplier());
-                dto.setPlasticType(w.getPlasticType());
-                dto.setPlasticBatch(w.getPlasticBatch());
-                dto.setResinedBatch(w.getResinedBatch());
-                dto.setPlates(w.getPlates());
-                return dto;
-            }).collect(Collectors.toList());
-
-            EnfestoGroupDTO groupDTO = new EnfestoGroupDTO();
-            groupDTO.setEnfestoDate(date);
-            groupDTO.setTotalPlacas(totalPlacas);
-            groupDTO.setWorkOrders(workOrderDTOs);
-
-            result.add(groupDTO);
-        }
-
-        // Ordena pela data, se quiser manter organizado
-        result.sort(Comparator.comparing(EnfestoGroupDTO::getEnfestoDate));
-
-        return result;
-    }
-
 
     public byte[] generateExcelReport(LocalDate start, LocalDate end) throws IOException {
         List<WorkOrder> workOrders = workOrderRepository.findByEnfestoDateBetween(start, end);
@@ -254,7 +55,7 @@ public class WorkOrderService {
         dateCellStyle.setDataFormat(creationHelper.createDataFormat().getFormat("dd/MM/yyyy"));
 
         String[] headers = {"NUMERO DA PLACA", "OT", "LOTE", "Qtd PLACAS", "CAMADAS", "TECIDO", "LOTE TECIDO",
-                "PLÁSTICO", "LOTE PLÁSTICO", "RWO", "DATA ENFESTO", "SEQUENCIA DA PLACA", "STATUS DA PLACA"};
+                "PLASTICO", "LOTE PLASTICO", "RWO", "DATA ENFESTO", "SEQUENCIA DA PLACA", "STATUS DA PLACA"};
         Row headerRow = sheet.createRow(0);
         for (int i = 0; i < headers.length; i++) {
             headerRow.createCell(i).setCellValue(headers[i]);
@@ -265,7 +66,7 @@ public class WorkOrderService {
             if (wo.getPlates() != null) {
                 for (Plates plate : wo.getPlates()) {
                     Row row = sheet.createRow(rowIdx++);
-                    row.createCell(0).setCellValue(plate.getId()+"-"+plate.getWorkorderid().getId());
+                    row.createCell(0).setCellValue(plate.getId() + "-" + plate.getWorkorderid().getId());
                     row.createCell(1).setCellValue(wo.getId());
                     row.createCell(2).setCellValue(wo.getLote());
                     row.createCell(3).setCellValue(wo.getPlatesQuantity());
@@ -294,7 +95,6 @@ public class WorkOrderService {
     private void createSummarySheet(Workbook workbook, List<WorkOrder> workOrders) {
         Sheet sheet = workbook.createSheet("Resumo");
 
-        // Criação de estilos
         Font boldFont = workbook.createFont();
         boldFont.setBold(true);
 
@@ -323,7 +123,6 @@ public class WorkOrderService {
         headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
         headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
-        // Estilo para todas as células com bordas
         CellStyle allStyle = workbook.createCellStyle();
         allStyle.setBorderBottom(BorderStyle.THIN);
         allStyle.setBorderTop(BorderStyle.THIN);
@@ -346,8 +145,8 @@ public class WorkOrderService {
 
         int rowNum = 0;
         for (Map.Entry<YearMonth, Map<String, Map<Long, Long>>> monthEntry : summary.entrySet()) {
-            int firstDataRow = rowNum + 2; // Lembra a primeira linha de dados
-            int lastDataRow = firstDataRow; // Será atualizado conforme adicionamos linhas
+            int firstDataRow = rowNum + 2;
+            int lastDataRow = firstDataRow;
 
             Row titleRow = sheet.createRow(rowNum++);
             Cell titleCell = titleRow.createCell(0);
@@ -367,8 +166,6 @@ public class WorkOrderService {
                 cell.setCellStyle(headerStyle);
             }
 
-            long monthTotal = 0;
-
             for (Map.Entry<String, Map<Long, Long>> batchEntry : monthEntry.getValue().entrySet()) {
                 for (Map.Entry<Long, Long> layerEntry : batchEntry.getValue().entrySet()) {
                     Row row = sheet.createRow(rowNum++);
@@ -385,7 +182,6 @@ public class WorkOrderService {
                     cell3.setCellValue(layerEntry.getValue());
                     cell3.setCellStyle(allStyle);
 
-                    monthTotal += layerEntry.getValue();
                     lastDataRow = rowNum - 1;
                 }
             }
@@ -399,8 +195,7 @@ public class WorkOrderService {
             applyStyleToMergedRegion(sheet, totalLabelRegion, mergedCellStyle);
 
             Cell totalValueCell = totalRow.createCell(2);
-            // Cria a fórmula SUM para somar a coluna C (índice 2) das linhas de dados
-            totalValueCell.setCellFormula("SUM(C" + (firstDataRow+1) + ":C" + (lastDataRow+1) + ")");
+            totalValueCell.setCellFormula("SUM(C" + (firstDataRow + 1) + ":C" + (lastDataRow + 1) + ")");
             totalValueCell.setCellStyle(mergedCellStyle);
 
             rowNum++;
@@ -411,7 +206,6 @@ public class WorkOrderService {
         }
     }
 
-    // Método auxiliar para aplicar estilo a todas as células de uma região mesclada
     private void applyStyleToMergedRegion(Sheet sheet, CellRangeAddress region, CellStyle style) {
         for (int row = region.getFirstRow(); row <= region.getLastRow(); row++) {
             Row currentRow = sheet.getRow(row);
@@ -423,5 +217,4 @@ public class WorkOrderService {
             }
         }
     }
-
 }

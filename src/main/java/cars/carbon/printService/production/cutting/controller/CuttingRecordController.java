@@ -11,6 +11,7 @@ import cars.carbon.printService.production.cutting.enums.TensylonTypes;
 import cars.carbon.printService.production.cutting.service.CuttingRecordService;
 import cars.carbon.printService.production.cutting.service.PlateQueryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// Migrado para o Maestro (Fase 3). Mantido sob feature flag para rollback.
+@ConditionalOnProperty(name = "spring.legacy.endpoints.enabled", havingValue = "true")
 @RestController
 @RequestMapping("/cutting")
 @RequiredArgsConstructor
