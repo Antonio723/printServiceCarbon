@@ -1,5 +1,6 @@
 package cars.carbon.printService.controller;
 import cars.carbon.printService.dto.Etiqueta2DTO;
+import cars.carbon.printService.dto.RenderRequestDTO;
 import cars.carbon.printService.service.ReportService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
@@ -68,6 +69,22 @@ public class ReportController {
 
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "inline; filename=etiqueta.pdf");
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("X-Frame-Options", "ALLOWALL");
+
+        response.getOutputStream().write(pdf);
+        response.getOutputStream().flush();
+    }
+
+    // Render genérico: recebe o .jrxml (da versão OPE no Maestro) + params + data
+    // e devolve o PDF. Permite versionar/trocar relatórios sem redeploy do Spring.
+    @PostMapping("/render")
+    public void render(@RequestBody RenderRequestDTO req, HttpServletResponse response) throws Exception {
+        byte[] pdf = etiquetaService.renderGeneric(req);
+
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "inline; filename=report.pdf");
 
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("X-Frame-Options", "ALLOWALL");
